@@ -1,13 +1,12 @@
-import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { AppStore } from '../store/AppStore';
 import { Router } from '@angular/router';
+import { AppStore } from '../../../core/store/AppStore';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
+import { AppRoutesNavigation } from '../../../app.routes';
 
 @Component({
   selector: 'app-callback',
-  imports: [],
+  imports: [ProgressSpinnerModule],
   template: `
     <div class="h-screen flex justify-center items-center">
       <p-progress-spinner
@@ -27,9 +26,9 @@ export class Callback implements OnInit {
   ngOnInit() {
     if (!this.appStore.isLoadingUser()) {
       if (this.appStore.user()) {
-        this.router.navigate(['/app']);
+        this.router.navigate([AppRoutesNavigation.HOME]);
       } else {
-        this.router.navigate(['/login']);
+        this.router.navigate([AppRoutesNavigation.LOGIN]);
       }
     }
   }

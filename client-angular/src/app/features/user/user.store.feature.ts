@@ -10,8 +10,9 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Account, Models, OAuthProvider } from 'appwrite';
-import { APPWRITE_CLIENT } from '../appwrite/appwrite.config';
-import { AppStore } from '../store/AppStore';
+import { APPWRITE_CLIENT } from '../../appwrite/appwrite.config';
+import { AppStore } from '../../core/store/AppStore';
+import { AppRoutesNavigation } from '../../app.routes';
 
 type User = Models.User<Models.Preferences>;
 
@@ -39,8 +40,8 @@ export function withUserFeature() {
       async signInGoogle() {
         await store._appwriteAccount.createOAuth2Session(
           OAuthProvider.Google,
-          `${window.location.origin}/auth/callback`,
-          `${window.location.origin}/login`,
+          `${window.location.origin}${AppRoutesNavigation.CALLBACK}`,
+          `${window.location.origin}${AppRoutesNavigation.LOGIN}`,
           ['profile']
         );
       },
@@ -59,7 +60,7 @@ export function withUserFeature() {
         try {
           await store._appwriteAccount.deleteSession('current');
           patchState(store, { user: null, isLoadingUser: false });
-          store._router.navigate(['/login']);
+          store._router.navigate([AppRoutesNavigation.LOGIN]);
         } catch (error: any) {
           patchState(store, { userError: error.message, isLoadingUser: false });
         }
@@ -82,5 +83,5 @@ export function withUserFeature() {
 }
 
 export const initUserStore = provideAppInitializer(async () => {
-  return await inject(AppStore).checkSession();
+  //return await inject(AppStore).checkSession();
 });

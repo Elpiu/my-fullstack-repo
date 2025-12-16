@@ -1,4 +1,4 @@
-import { signalStore, withHooks, withProps } from '@ngrx/signals';
-import { withUserFeature } from '../auth/user.store.feature';
-import { effect, inject, untracked } from '@angular/core';
-export const AppStore = signalStore(withUserFeature(), withUserPreferences());
+import { signalStore } from '@ngrx/signals';
+import { withUserFeature } from '../../features/user/user.store.feature';
+
+export const AppStore = signalStore(withUserFeature());
