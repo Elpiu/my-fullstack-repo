@@ -1,0 +1,8 @@
+mkdir my-fullstack-repo
+cd my-fullstack-repo
+git init
+
+
+ng new client-angular --directory ./client-angular --skip-git
+
+nest new server-node --skip-git --package-manager npm
