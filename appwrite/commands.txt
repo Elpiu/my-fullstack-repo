@@ -1,3 +1,11 @@
+--- Set up appwrite self hosted
+
+Go to the folder docker\1.8.0-appwrite
+run -> docker compose up -d
+
+---
+
+
 --- Login and select user
 appwrite client login --endpoint "http://localhost/v1"
 appwrite login
