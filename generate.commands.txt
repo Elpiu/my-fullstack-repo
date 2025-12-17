@@ -1,37 +1,9 @@
---- Login and select user
-appwrite client login --endpoint "http://localhost/v1"
-appwrite login
 
---- Create project
-appwrite init project
+mkdir my-fullstack-repo
+cd my-fullstack-repo
+git init
 
 
---- Generate types
+ng new client-angular --directory ./client-angular --skip-git
 
-appwrite types -l ts ./types
-
-
---- Other
-
-appwrite client login --endpoint "http://localhost/v1"
-
-appwrite client login --endpoint "https://cloud.appwrite.io/v1"
-
-// Deplpoy cloud
-Manually create on cloud appwrite project with same name and same id
-Manually set auth settings (google oauth2)
-
-appwrite push --all
-
-
-In google Oauth 2 for the redirect Uri remuve 'fra'
-https://fra.cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/PROJECT_ID
-https://cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/PROJECT_ID
-
-# aggiungere la tua app Angular come "Platform" nel progetto Appwrite con quel dominio per autorizzare il redirect
-# Attento a i cookie che potrebbero bloccare l'autenticazione
-
-
-
-
-
+nest new server-node --skip-git --package-manager npm
