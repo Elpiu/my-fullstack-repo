@@ -10,9 +10,9 @@ import { AppRoutesNavigation } from '../../../app.routes';
   template: `
     <div class="h-screen flex justify-center items-center">
       <p-progress-spinner
-        strokeWidth="8"
+        strokeWidth="4"
         fill="transparent"
-        animationDuration=".5s"
+        animationDuration=".8s"
         [style]="{ width: '5rem', height: '5rem' }"
       />
     </div>

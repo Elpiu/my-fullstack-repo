@@ -11,6 +11,7 @@ import Aura from '@primeuix/themes/aura';
 import { routes } from './app.routes';
 import { provideStores } from './core/store';
 import { provideAppWriteClient } from './appwrite/appwrite.config';
+import { MessageService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,8 +20,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
 
     provideAppWriteClient(),
+
     ...provideStores(),
 
+    MessageService,
     providePrimeNG({
       theme: {
         preset: Aura,

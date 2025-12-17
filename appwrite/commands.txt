@@ -32,6 +32,11 @@ Manually set auth settings (google oauth2)
 appwrite push --all
 
 
+--- Google oauth2
+enable Google in appwrite console section auth
+
+set app id and app secret from (https://console.cloud.google.com/)  Google Auth Platform / Client
+
 In google Oauth 2 for the redirect Uri remuve 'fra'
 https://fra.cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/PROJECT_ID
 https://cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/PROJECT_ID

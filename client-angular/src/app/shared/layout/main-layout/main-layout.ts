@@ -7,13 +7,15 @@ import { Toast } from 'primeng/toast';
   selector: 'app-main-layout',
   imports: [TopBar, RouterOutlet, Toast],
   template: `
-    <div class="flex flex-col h-screen font-sans">
-      <app-top-bar />
-      <main class="flex-1 overflow-y-auto">
-        <router-outlet />
-      </main>
+    <div class="max-w-screen-xl mx-auto">
+      <div class="flex flex-col h-screen font-sans">
+        <app-top-bar />
+        <main class="flex-1 overflow-y-auto">
+          <router-outlet />
+        </main>
 
-      <p-toast position="bottom-right" />
+        <p-toast position="bottom-right" />
+      </div>
     </div>
   `,
   styles: ``,

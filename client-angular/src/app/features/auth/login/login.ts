@@ -24,9 +24,10 @@ import { AppStore } from '../../../core/store/AppStore';
       >
         <app-login-google />
 
-        <p class="text-xs text-white/50 mt-4">
-          Continuando accetti i <a href="#" class="underline hover:text-white">Termini</a> e la
-          <a href="#" class="underline hover:text-white">Privacy Policy</a>.
+        <p class="text-xs  mt-4">
+          Continuando accetti i
+          <a href="#" class="underline hover:text-primary-300 text-primary-500">Termini</a> e la
+          <a href="#" class="underline hover:text-primary-300 text-primary-500">Privacy Policy</a>.
         </p>
       </div>
     </div>

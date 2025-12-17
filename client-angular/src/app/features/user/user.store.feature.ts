@@ -83,5 +83,5 @@ export function withUserFeature() {
 }
 
 export const initUserStore = provideAppInitializer(async () => {
-  //return await inject(AppStore).checkSession();
+  return await inject(AppStore).checkSession();
 });
