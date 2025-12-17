@@ -1,0 +1,26 @@
+# Changelog
+Tutti i cambiamenti significativi a questo progetto saranno documentati in questo file.
+
+
+[0.0.0] - 2025-12-15
+#### Frontend (Angular 21)
+Boilerplate Auth: Implementazione minima del servizio di autenticazione (auth.service.ts) per il login con Google tramite SDK di Appwrite.
+
+Configurazione Appwrite: Client inizializzato e pronto all'uso tramite injection token o configurazione globale.
+
+UI Base: Layout essenziale con PrimeNG e Tailwind 4 per verificare il corretto caricamento degli stili.
+
+#### Backend (NestJS 11)
+Microservizio Base: Setup di un'applicazione NestJS minima per ospitare logica custom non gestibile direttamente da Appwrite (es. webhook complessi o integrazioni terze).
+
+Health Check: Endpoint di base per verificare la raggiungibilità del servizio.
+
+#### Infrastructure
+Appwrite 1.8 Integration: Predisposizione dei parametri di connessione (Endpoint e Project ID) tramite file di ambiente.
+
+Project Scaffolding: Definizione della struttura a cartelle per separare nettamente le responsabilità tra i vari servizi.
+
+---
+
+📝 Note di Genesi
+Il progetto nasce da un'operazione di "decoupling" (scorporo) di funzionalità core precedentemente sviluppate per un'applicazione in produzione. L'obiettivo è isolare un'architettura solida e riutilizzabile, eliminando le logiche di business specifiche per mantenere solo il boilerplate tecnico.
