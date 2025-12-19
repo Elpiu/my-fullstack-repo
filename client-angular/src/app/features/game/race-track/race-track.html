@@ -1,0 +1,91 @@
+<div class="relative w-full h-screen overflow-hidden">
+  <!-- Canvas 3D -->
+  <canvas #rendererCanvas class="w-full h-full block"></canvas>
+
+  <!-- Overlay Countdown Start -->
+  @if (store.status() === 'COUNTDOWN') {
+  <div class="absolute inset-0 flex items-center justify-center bg-black/60 z-50">
+    <h1 class="text-9xl font-black text-yellow-400 animate-bounce">
+      {{ store.countdown() }}
+    </h1>
+  </div>
+  }
+
+  <!-- HUD Gara -->
+  @if (store.status() === 'RACING') {
+  <div
+    class="absolute bottom-10 left-0 right-0 flex flex-col items-center gap-4 z-40 pointer-events-none"
+  >
+    <!-- Stamina -->
+    <div
+      class="relative w-80 h-6 bg-slate-900/80 rounded-full border-2 border-slate-500 overflow-hidden"
+    >
+      <div
+        class="absolute top-0 left-0 h-full bg-gradient-to-r from-yellow-500 to-red-600 transition-all duration-100 ease-linear"
+        [style.width.%]="store.me()?.stamina || 0"
+      ></div>
+      <span
+        class="absolute inset-0 flex items-center justify-center text-xs font-bold text-white shadow-black drop-shadow-md"
+      >
+        STAMINA
+      </span>
+    </div>
+
+    <!-- Bottone Sprint (Pointer events auto per cliccare) -->
+    <button
+      (mousedown)="startSprint()"
+      (mouseup)="stopSprint()"
+      (mouseleave)="stopSprint()"
+      (touchstart)="startSprint()"
+      (touchend)="stopSprint()"
+      class="pointer-events-auto px-10 py-6 bg-red-600 hover:bg-red-500 active:bg-red-700 text-white font-black text-2xl rounded-2xl shadow-[0_10px_0_rgb(150,0,0)] active:shadow-none active:translate-y-2 transition-all select-none"
+    >
+      SPRINT!
+    </button>
+  </div>
+
+  <!-- Classifica Live (Top Right) -->
+  <div class="absolute top-4 right-4 bg-black/40 p-4 rounded-xl text-white w-48">
+    <h4 class="text-xs font-bold text-slate-300 mb-2 uppercase">Live Ranking</h4>
+    <ul>
+      @for (horse of store.leaderboard().slice(0, 5); track horse.id; let i = $index) {
+      <li
+        class="flex justify-between text-sm py-1 border-b border-white/10 last:border-0"
+        [class.text-yellow-400]="horse.id === store.myId()"
+      >
+        <span>#{{ i + 1 }} {{ horse.name }}</span>
+        <span>{{ horse.position | number : '1.0-0' }}m</span>
+      </li>
+      }
+    </ul>
+  </div>
+  }
+
+  <!-- Schermata Finale -->
+  @if (store.status() === 'FINISHED') {
+  <div
+    class="absolute inset-0 flex flex-col items-center justify-center bg-black/80 z-50 text-white backdrop-blur-sm"
+  >
+    <h2 class="text-5xl font-bold mb-6 text-yellow-400">GARA TERMINATA</h2>
+
+    <div class="bg-slate-800 p-8 rounded-2xl w-full max-w-lg border border-slate-600">
+      @for (horse of store.leaderboard().slice(0, 3); track horse.id; let i = $index) {
+      <div class="flex items-center justify-between text-2xl py-3 border-b border-slate-600">
+        <span
+          class="font-bold"
+          [class.text-yellow-400]="i === 0"
+          [class.text-gray-300]="i === 1"
+          [class.text-orange-400]="i === 2"
+        >
+          #{{ i + 1 }}
+        </span>
+        <span>{{ horse.name }}</span>
+        @if (horse.id === store.myId()) {
+        <span class="text-xs bg-blue-600 px-2 rounded ml-2">TU</span> }
+      </div>
+      }
+    </div>
+    <p class="mt-8 text-slate-400 animate-pulse">Ritorno alla lobby tra 5 secondi...</p>
+  </div>
+  }
+</div>

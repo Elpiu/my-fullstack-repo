@@ -1,0 +1,10 @@
+@switch (store.status()) { @case ('WAITING') {
+<app-lobby />
+} @case ('COUNTDOWN') {
+<!-- Il countdown avviene tecnicamente nella scena di gara -->
+<app-race-track />
+} @case ('RACING') {
+<app-race-track />
+} @case ('FINISHED') {
+<app-race-track />
+} }

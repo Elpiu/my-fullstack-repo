@@ -29,8 +29,14 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: 'race',
         pathMatch: 'full',
+      },
+
+      {
+        path: 'race',
+        loadComponent: () =>
+          import('./features/game/game-container/game-container').then((m) => m.GameContainer),
       },
 
       {
