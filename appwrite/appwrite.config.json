@@ -1,6 +1,6 @@
 {
-    "projectId": "6941c257180a0c77b87c",
-    "projectName": "appwrite-pro",
+    "projectId": "691df6cca13ebc2229d8",
+    "projectName": "minder",
     "settings": {
         "services": {
             "account": true,
@@ -18,7 +18,7 @@
         },
         "auth": {
             "methods": {
-                "jwt": false,
+                "jwt": true,
                 "phone": false,
                 "invites": false,
                 "anonymous": false,
@@ -37,5 +37,103 @@
                 "mockNumbers": []
             }
         }
-    }
+    },
+    "databases": [
+        {
+            "$id": "691e33bc00199c3bb5b2",
+            "name": "main_db",
+            "enabled": true
+        }
+    ],
+    "collections": [
+        {
+            "$id": "user",
+            "$permissions": [],
+            "databaseId": "691e33bc00199c3bb5b2",
+            "name": "user",
+            "enabled": true,
+            "documentSecurity": false,
+            "attributes": [],
+            "indexes": []
+        },
+        {
+            "$id": "simpleentry",
+            "$permissions": [
+                "create(\"users\")"
+            ],
+            "databaseId": "691e33bc00199c3bb5b2",
+            "name": "simpleEntry",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "tagIdList",
+                    "type": "string",
+                    "required": false,
+                    "array": true,
+                    "size": 20,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "content",
+                    "type": "string",
+                    "required": true,
+                    "array": false,
+                    "size": 2046,
+                    "default": null,
+                    "encrypt": false
+                },
+                {
+                    "key": "date",
+                    "type": "datetime",
+                    "required": true,
+                    "array": false,
+                    "format": "",
+                    "default": null
+                },
+                {
+                    "key": "categoryId",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 512,
+                    "default": null,
+                    "encrypt": false
+                }
+            ],
+            "indexes": []
+        },
+        {
+            "$id": "usermetadata",
+            "$permissions": [
+                "create(\"users\")"
+            ],
+            "databaseId": "691e33bc00199c3bb5b2",
+            "name": "userMetadata",
+            "enabled": true,
+            "documentSecurity": true,
+            "attributes": [
+                {
+                    "key": "categoriesJson",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50000,
+                    "default": "[]",
+                    "encrypt": false
+                },
+                {
+                    "key": "tagsJson",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 10000,
+                    "default": "[]",
+                    "encrypt": false
+                }
+            ],
+            "indexes": []
+        }
+    ]
 }

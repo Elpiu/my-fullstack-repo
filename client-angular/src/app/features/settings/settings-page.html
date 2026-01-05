@@ -1,0 +1,96 @@
+<div class="flex flex-col h-full overflow-y-auto pb-24">
+  <!-- SEZIONE CATEGORIE -->
+  <div class="px-4 mb-8">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-md font-bold">Categories</h3>
+      <span class="text-xs bg-primary-500 px-2 py-1 rounded-full">{{
+        metadata.categories().length
+      }}</span>
+    </div>
+
+    <!-- Lista Categorie Esistenti -->
+    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 mb-4">
+      @for(cat of metadata.categories(); track cat.id) {
+      <div class="flex items-center justify-between p-3 rounded-xl border shadow-sm group">
+        <div class="flex items-center gap-3">
+          <div
+            class="w-8 h-8 rounded-lg flex items-center justify-center"
+            [style.background-color]="'var(--p-' + cat.color + ')'"
+          >
+            <i-tabler [name]="cat.icon" class="text-sm text-primary-500'"></i-tabler>
+          </div>
+          <span class="font-medium text-sm">{{ cat.label }}</span>
+        </div>
+        <p-confirmpopup />
+
+        <button
+          pButton
+          class="p-button-danger p-button-sm"
+          (click)="confirmDeleteCategory($event, cat.id)"
+        >
+          <i-tabler name="trash" class=""></i-tabler>
+        </button>
+      </div>
+      }
+    </div>
+
+    <p-accordion value="0">
+      <p-accordion-panel value="0">
+        <p-accordion-header>Create new category</p-accordion-header>
+        <p-accordion-content>
+          <!-- Creator -->
+          <div class="mt-2">
+            <app-category-creator (onCreate)="addCategory($event)" />
+          </div>
+        </p-accordion-content>
+      </p-accordion-panel>
+    </p-accordion>
+  </div>
+
+  <!-- SEZIONE TAG -->
+  <div class="px-6 mb-8">
+    <div class="flex justify-between items-center mb-3">
+      <h3 class="text-md font-bold">Tags</h3>
+      <span class="text-xs bg-primary-500 px-2 py-1 rounded-full">{{
+        metadata.tags().length
+      }}</span>
+    </div>
+
+    <!-- Lista Tag Esistenti (Cloud Style) -->
+    <div class="flex flex-wrap gap-2 mb-4">
+      @for(tag of metadata.tags(); track tag.id) {
+      <div
+        class="flex items-center gap-1 pl-3 pr-1 py-1.5 border border-surface-200 rounded-lg text-sm shadow-sm group"
+      >
+        <span>#{{ tag.label }}</span>
+
+        <p-confirmpopup />
+
+        <button
+          pButton
+          class="p-button-danger p-button-sm"
+          (click)="confirmDeleteTag($event, tag.id)"
+        >
+          <i-tabler name="trash" class=""></i-tabler>
+        </button>
+      </div>
+      }
+    </div>
+
+    <!-- Creator -->
+    <div class="mt-2">
+      <app-tag-creator (onCreate)="addTag($event)" />
+    </div>
+  </div>
+
+  <!-- Logout Button Area 
+  <div class="px-6 mt-auto">
+    <button
+      pButton
+      label="Logout"
+      icon="pi pi-sign-out"
+      class="w-full p-button-outlined p-button-secondary"
+      (click)="store.signOut()"
+    ></button>
+  </div>-->
+</div>

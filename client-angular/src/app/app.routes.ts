@@ -2,28 +2,23 @@ import { Routes } from '@angular/router';
 import { Callback } from './features/auth/callback/callback';
 import { MainLayout } from './shared/layout/main-layout/main-layout';
 import { authGuard } from './core/guards/auth.guard';
-
-export class AppRoutesNavigation {
-  static readonly LOGIN = '/login';
-  static readonly CALLBACK = '/auth/callback';
-  static readonly HOME = '/app';
-}
+import { AppRoutesNavigation } from './core/data';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'app',
+    redirectTo: AppRoutesNavigation.HOME,
     pathMatch: 'full',
   },
 
   {
-    path: 'login',
+    path: AppRoutesNavigation.LOGIN.replace('/', ''),
     loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
   },
   { path: 'auth/callback', component: Callback },
 
   {
-    path: 'app',
+    path: AppRoutesNavigation.HOME.replace('/', ''),
     component: MainLayout,
     canActivate: [authGuard],
     children: [
@@ -34,15 +29,26 @@ export const routes: Routes = [
       },
 
       {
+        path: AppRoutesNavigation.Note.replace('/', ''),
+        loadComponent: () => import('./features/notes/note-page/note-page').then((m) => m.NotePage),
+      },
+
+      {
         path: 'profile',
         loadComponent: () =>
           import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),
+      },
+
+      {
+        path: AppRoutesNavigation.SETTINGS.replace('/', ''),
+        loadComponent: () =>
+          import('./features/settings/settings-page').then((m) => m.SettingsPage),
       },
     ],
   },
 
   {
     path: '**',
-    redirectTo: 'login',
+    redirectTo: AppRoutesNavigation.LOGIN,
   },
 ];

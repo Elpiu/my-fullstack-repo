@@ -1,0 +1,85 @@
+<div class="flex flex-col h-full px-1 md:px-4">
+  <div class="px-3 pt-4 pb-2">
+    <h1 class="text-lg font-handwriting">Calendar</h1>
+  </div>
+
+  <div class="">
+    <div class="rounded-[20px]">
+      <p-datepicker
+        [inline]="true"
+        [(ngModel)]="selectedDate"
+        [showOtherMonths]="false"
+        (onMonthChange)="handleMonthChange($event)"
+        class="w-full border-none !flex flex-col"
+      >
+        <ng-template pTemplate="date" let-date>
+          @if (!isLoading()) {
+          <div
+            class="relative w-8 h-8 flex items-center justify-center transition-all duration-200 rounded-full"
+            [class.border-2]="getEntryCount(date) > 0"
+          >
+            <span class="text-sm font-medium">{{ date.day }}</span>
+
+            @if (getEntryCount(date); as count) { @if (count > 0) {
+            <div
+              class="absolute -top-1 -right-1.5 w-4 h-4 bg-primary-500 text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm z-10 border-2"
+            >
+              {{ count }}
+            </div>
+            } }
+          </div>
+          }
+        </ng-template>
+      </p-datepicker>
+    </div>
+  </div>
+  @if (selectedDate()) {
+  <div class="flex-1 overflow-y-auto px-4 pb-24 mt-4 custom-scrollbar">
+    <div class="flex items-center justify-between mb-6 pl-2">
+      <div class="flex items-center gap-3">
+        <div class="flex flex-col">
+          <span class="text-[10px] uppercase tracking-widest text-surface-400 font-bold"
+            >Diario del</span
+          >
+          <h2 class="text-xl font-black leading-none">
+            {{ selectedDate() | date : 'dd MMM yyyy' }}
+          </h2>
+        </div>
+
+        <span
+          class="flex items-center justify-center h-6 px-2 rounded-lg bg-primary-500 text-[12px] font-black"
+        >
+          {{ selectedDayEntries().length }}
+        </span>
+      </div>
+
+      <button
+        pButton
+        class="p-button-rounded w-12 h-12 shadow-xl transition-transform active:scale-90"
+        (click)="isInputOpen.set(true)"
+      >
+        <i-tabler name="plus" class="w-6 h-6"></i-tabler>
+      </button>
+    </div>
+
+    @if (selectedDayEntries().length > 0) {
+    <app-journal [entries]="selectedDayEntries()" />
+    } @else {
+    <div class="flex flex-col items-center justify-center py-12 opacity-40">
+      <i-tabler name="notes" class="w-12 h-12 mb-2"></i-tabler>
+      <p class="text-sm">No notes found</p>
+    </div>
+    }
+  </div>
+  }
+</div>
+
+<app-ui-dialog
+  [(visible)]="isInputOpen"
+  [header]="'Add new note - ' + (selectedDate() | date : 'dd/MM')"
+>
+  <app-note-input
+    [dateToSetISOFormat]="getLocalDateISO()"
+    (newItemAdded)="pushNewNoteIntoEntries($event)"
+  />
+</app-ui-dialog>

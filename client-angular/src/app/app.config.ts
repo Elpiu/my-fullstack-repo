@@ -8,10 +8,13 @@ import { provideRouter } from '@angular/router';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 
+import { provideTablerIcons } from 'angular-tabler-icons';
+
 import { routes } from './app.routes';
 import { provideStores } from './core/store';
 import { provideAppWriteClient } from './appwrite/appwrite.config';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { COMMON_ICONS } from './core/tabler/icons.provider';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,10 +27,13 @@ export const appConfig: ApplicationConfig = {
     ...provideStores(),
 
     MessageService,
+    ConfirmationService,
     providePrimeNG({
       theme: {
         preset: Aura,
       },
     }),
+
+    provideTablerIcons(COMMON_ICONS),
   ],
 };

@@ -1,10 +1,16 @@
 import { Component, inject, signal } from '@angular/core';
 import { AppStore } from '../../../core/store/AppStore';
 import { environment } from '../../../../environments/environment';
+import { ButtonDirective, ButtonModule } from 'primeng/button';
+import { TablerIconComponent, provideTablerIcons } from 'angular-tabler-icons';
+import { APP_DATA } from '../../../core/data';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { NgComponentOutlet } from '@angular/common';
 
 @Component({
   selector: 'app-top-bar',
-  imports: [],
+  imports: [ButtonDirective, ButtonModule, TablerIconComponent, RouterModule, NgComponentOutlet],
+  providers: [],
   template: `
     <header class="w-full  shadow-md z-40  px-3 py-3">
       <div class="flex justify-between items-center w-full">
@@ -14,15 +20,22 @@ import { environment } from '../../../../environments/environment';
         </div>
 
         <div class="flex items-center gap-2">
-          @for (item of buttons; track $index) {
-          <button
-            (click)="item.handlerClick()"
-            class="p-2 rounded-full text-gray-600 hover:bg-surface-300 hover:text-black transition-colors active:scale-95"
-            [aria-label]="item.label"
-          >
-            <i class="text-xl" [classList]="item.icon"></i>
-          </button>
-          }
+          @for (item of APP_DATA.topbarItems; track $index) { @if(item.visible) {
+          <div class="topbar-item">
+            @if (item.component) {
+            <ng-container *ngComponentOutlet="item.component" />
+            } @else {
+            <button
+              (click)="item.handlerClick?.(router,route)"
+              pButton
+              class="p-2 rounded-full text-gray-600 hover:bg-surface-300 hover:text-black transition-colors active:scale-95"
+              [aria-label]="item.label"
+            >
+              <i-tabler [name]="item.icon!"></i-tabler>
+            </button>
+            }
+          </div>
+          } }
         </div>
       </div>
     </header>
@@ -30,41 +43,16 @@ import { environment } from '../../../../environments/environment';
   styles: ``,
 })
 export class TopBar {
+  APP_DATA = APP_DATA;
+
   appStore = inject(AppStore);
+  router = inject(Router);
+  route = inject(ActivatedRoute);
+
   readonly appName = signal(
     `${environment.appwriteProjectName}-${environment.production ? 'prod' : 'dev'}-${
       environment.appVersion
     }`
   );
   readonly isVisible = signal(true);
-
-  buttons = [
-    {
-      label: 'Page1',
-      url: '/app/page1',
-      icon: 'pi pi-user',
-      visible: true,
-      handlerClick: () => {
-        console.log('handlerClick Page1');
-      },
-    },
-    {
-      label: 'Page2',
-      url: '/app/page2',
-      icon: 'pi pi-user',
-      visible: true,
-      handlerClick: () => {
-        console.log('handlerClick Page2');
-      },
-    },
-    {
-      label: 'Page3',
-      url: '/app/page3',
-      icon: 'pi pi-user',
-      visible: true,
-      handlerClick: () => {
-        console.log('handlerClick Page3');
-      },
-    },
-  ];
 }

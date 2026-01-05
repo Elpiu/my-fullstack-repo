@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppStore } from '../../../core/store/AppStore';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { AppRoutesNavigation } from '../../../app.routes';
+import { AppRoutesNavigation } from '../../../core/data';
 
 @Component({
   selector: 'app-callback',

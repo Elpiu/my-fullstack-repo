@@ -12,7 +12,7 @@ import {
 import { Account, Models, OAuthProvider } from 'appwrite';
 import { APPWRITE_CLIENT } from '../../appwrite/appwrite.config';
 import { AppStore } from '../../core/store/AppStore';
-import { AppRoutesNavigation } from '../../app.routes';
+import { AppRoutesNavigation } from '../../core/data';
 
 type User = Models.User<Models.Preferences>;
 
