@@ -43,6 +43,21 @@ import {
   IconToolsKitchen3,
   IconPlus,
   IconDatabase,
+  IconPooFilled,
+  IconPoo,
+  IconWashMachine,
+  IconBeerFilled,
+  IconBong,
+  IconBongOff,
+  IconLockFilled,
+  IconPinnedFilled,
+  IconPlane,
+  IconShieldLockFilled,
+  IconSmoking,
+  IconSmokingNo,
+  IconArrowBackUp,
+  IconClipboardXFilled,
+  IconX,
 } from 'angular-tabler-icons/icons';
 
 export const COMMON_ICONS = {
@@ -73,6 +88,9 @@ export const COMMON_ICONS = {
   IconDroplet,
   IconPill,
   IconZzz,
+  IconPooFilled,
+  IconPoo,
+
   // Sport
   IconBarbell,
   IconRun,
@@ -82,6 +100,8 @@ export const COMMON_ICONS = {
   IconCoffee,
   IconApple,
   IconGlassFull,
+  IconBeerFilled,
+
   // Trasporti
   IconCar,
   IconGasStation,
@@ -99,4 +119,17 @@ export const COMMON_ICONS = {
   IconPaw,
   IconUsers,
   IconShoppingCart,
+  IconWashMachine,
+  // Altro
+  IconSmokingNo,
+  IconSmoking,
+  IconBong,
+  IconBongOff,
+  IconLockFilled,
+  IconShieldLockFilled,
+  IconPlane,
+  IconPinnedFilled,
+  IconArrowBackUp,
+  IconX,
+  IconClipboardXFilled,
 };

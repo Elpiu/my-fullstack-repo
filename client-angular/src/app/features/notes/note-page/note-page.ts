@@ -32,17 +32,24 @@ import { TablerIconComponent } from 'angular-tabler-icons';
 })
 export class NotePage implements OnInit {
   private noteService = inject(NoteService);
+  public metadataService = inject(UserMetadaService);
 
   selectedDate = signal<Date | null>(null);
   allEntries = signal<SimpleEntry[]>([]);
   isLoading = signal(false);
   isInputOpen = signal(false);
+  selectedCategoryIds = signal<string[]>([]);
 
   entriesMap = computed(() => {
     const map = new Map<string, number>();
     const entries = this.allEntries();
+    const activeFilters = this.selectedCategoryIds();
 
     entries.forEach((entry) => {
+      // Se ci sono filtri, includi solo le note delle categorie selezionate
+      if (activeFilters.length > 0 && !activeFilters.includes(entry.categoryId)) {
+        return;
+      }
       const dateKey = new Date(entry.date).toISOString().split('T')[0];
       const currentCount = map.get(dateKey) || 0;
       map.set(dateKey, currentCount + 1);
@@ -57,11 +64,18 @@ export class NotePage implements OnInit {
     const year = selected.getFullYear();
     const month = String(selected.getMonth() + 1).padStart(2, '0');
     const day = String(selected.getDate()).padStart(2, '0');
-
     const key = `${year}-${month}-${day}`;
-    return this.allEntries().filter(
-      (entry) => new Date(entry.date).toISOString().split('T')[0] === key
-    );
+
+    const activeFilters = this.selectedCategoryIds();
+
+    return this.allEntries().filter((entry) => {
+      const entryDateKey = new Date(entry.date).toISOString().split('T')[0];
+      const matchesDate = entryDateKey === key;
+      const matchesCategory =
+        activeFilters.length === 0 || activeFilters.includes(entry.categoryId);
+
+      return matchesDate && matchesCategory;
+    });
   });
 
   onDayClicked(event: MouseEvent, date: { day: number; month: number; year: number }) {
@@ -125,5 +139,15 @@ export class NotePage implements OnInit {
     const offset = date.getTimezoneOffset();
     const adjustedDate = new Date(date.getTime() - offset * 60 * 1000);
     return adjustedDate.toISOString();
+  }
+
+  toggleCategoryFilter(categoryId: string) {
+    this.selectedCategoryIds.update((ids) =>
+      ids.includes(categoryId) ? ids.filter((id) => id !== categoryId) : [...ids, categoryId]
+    );
+  }
+
+  clearCategoryFilters() {
+    this.selectedCategoryIds.set([]);
   }
 }
