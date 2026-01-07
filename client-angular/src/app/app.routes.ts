@@ -24,7 +24,7 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: AppRoutesNavigation.Note.replace('/', ''),
         pathMatch: 'full',
       },
 

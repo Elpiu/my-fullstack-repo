@@ -3,13 +3,12 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { NoteItem } from '../note-item/note-item';
 import { SimpleEntry } from '../../../core/models/appwrite';
 import { UserMetadaService } from '../../../core/services/user-metada-service';
-import { TablerIconComponent } from 'angular-tabler-icons';
 import { NoteService } from '../../services/note-service';
 
 @Component({
   selector: 'app-journal',
   standalone: true,
-  imports: [CommonModule, DatePipe, NoteItem, TablerIconComponent],
+  imports: [CommonModule, DatePipe, NoteItem],
   templateUrl: './journal.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

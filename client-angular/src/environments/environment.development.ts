@@ -7,7 +7,7 @@ export const environment = {
 
   appwriteEndpoint: 'http://localhost/v1',
   appwriteProjectId: '691df6cca13ebc2229d8',
-  appwriteProjectName: 'client-angular',
+  appwriteProjectName: 'Minder',
 
   database: '691e33bc00199c3bb5b2',
   tb_entry: 'simpleentry',

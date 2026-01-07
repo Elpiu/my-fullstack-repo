@@ -2,6 +2,7 @@ import {
   ApplicationConfig,
   provideBrowserGlobalErrorListeners,
   provideZonelessChangeDetection,
+  isDevMode,
 } from '@angular/core';
 import { provideRouter } from '@angular/router';
 
@@ -15,6 +16,7 @@ import { provideStores } from './core/store';
 import { provideAppWriteClient } from './appwrite/appwrite.config';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { COMMON_ICONS } from './core/tabler/icons.provider';
+import { provideServiceWorker } from '@angular/service-worker';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,5 +37,9 @@ export const appConfig: ApplicationConfig = {
     }),
 
     provideTablerIcons(COMMON_ICONS),
+    provideServiceWorker('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      registrationStrategy: 'registerWhenStable:30000',
+    }),
   ],
 };
