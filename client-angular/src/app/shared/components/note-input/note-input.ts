@@ -64,7 +64,7 @@ export class NoteInput {
   isEditMode = signal(false);
 
   noteForm = new FormGroup({
-    content: new FormControl('', [Validators.required]),
+    content: new FormControl(''),
     // PrimeNG MultiSelect lavora con array di oggetti
     selectedCategories: new FormControl<UserCategory[]>([], [Validators.required]),
     selectedTags: new FormControl<UserTag[]>([]),

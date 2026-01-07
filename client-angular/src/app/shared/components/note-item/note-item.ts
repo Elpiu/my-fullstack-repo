@@ -28,41 +28,45 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
         hover:shadow-md hover:border-primary-300 dark:hover:border-primary-700
         group
       "
+      tabindex="0"
     >
       <!-- HEADER: Categoria + Actions -->
       <div class="flex justify-between items-start mb-3 h-7">
         <!-- Badge Categoria -->
         <div
-          class="flex items-center gap-2 px-2 py-1 rounded-lg text-xs font-semibold "
+          class="flex items-center gap-2 px-2 py-1 rounded-lg text-xs font-semibold"
           [style.background-color]="'var(--p-' + category.color + ')'"
         >
           <tabler-icon [name]="category.icon" class="w-4 h-4"></tabler-icon>
-          <span class="">{{ category.label }}</span>
+          <span>{{ category.label }}</span>
         </div>
 
-        <!-- ACTION BUTTONS: Visibili on hover/focus -->
-        <!-- opacity-0 group-hover:opacity-100 rende l'UI pulita quando non interagisci -->
         <div
-          class="flex gap-1 opacity-0 group-hover:opacity-100 focus-within:opacity-100 transition-opacity duration-200"
+          class="
+            flex gap-1 
+            transition-opacity duration-200
+            opacity-100 
+            lg:opacity-0 
+            lg:group-hover:opacity-100 
+            lg:focus-within:opacity-100
+          "
         >
           <!-- EDIT BUTTON -->
           <p-button
-            icon="pi pi-pencil"
             [rounded]="true"
             [text]="true"
             severity="secondary"
             size="small"
             styleClass="!w-10 !h-10"
-            (onClick)="onEdit.emit(item())"
+            (onClick)="$event.stopPropagation(); onEdit.emit(item())"
             pTooltip="Modifica"
             tooltipPosition="top"
           >
-            <tabler-icon name="pencil"></tabler-icon>
+            <tabler-icon name="pencil" class="w-4 h-4"></tabler-icon>
           </p-button>
 
           <!-- DELETE BUTTON -->
           <p-button
-            icon="pi pi-trash"
             [rounded]="true"
             [text]="true"
             severity="danger"
@@ -71,8 +75,7 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
             (onClick)="confirmDelete($event, item().$id)"
             pTooltip="Elimina"
             tooltipPosition="top"
-          >
-            <tabler-icon name="trash"></tabler-icon>
+            ><tabler-icon name="trash" class="w-4 h-4"></tabler-icon>
           </p-button>
         </div>
       </div>
@@ -122,16 +125,16 @@ export class NoteItem {
 
     this.confirmationService.confirm({
       target: event.currentTarget as EventTarget,
-      message: 'Are you sure you want to delete?',
+      message: 'Vuoi eliminare questa nota?',
       icon: 'pi pi-exclamation-triangle',
       rejectButtonProps: {
-        label: 'Back',
+        label: 'Annulla',
         severity: 'secondary',
         outlined: true,
         size: 'small',
       },
       acceptButtonProps: {
-        label: 'Delete',
+        label: 'Elimina',
         severity: 'danger',
         size: 'small',
       },
