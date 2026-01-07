@@ -5,7 +5,7 @@ export const environment = {
   appName: pckJson.name,
   appVersion: pckJson.version,
 
-  appwriteEndpoint: 'http://localhost/v1',
+  appwriteEndpoint: 'https://fra.cloud.appwrite.io/v1',
   appwriteProjectId: '691df6cca13ebc2229d8',
   appwriteProjectName: 'Minder',
 
