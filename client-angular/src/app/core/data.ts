@@ -17,15 +17,15 @@ export class AppRoutesNavigation {
 }
 
 const APP_TOPBAR_ITEMS: TopbarItem[] = [
-  {
-    icon: 'trophy',
-    label: 'Leaderboard',
-    visible: true,
-    url: AppRoutesNavigation.LEADERBOARD,
-    handlerClick: (router: Router, route: ActivatedRoute) => {
-      router.navigate([AppRoutesNavigation.LEADERBOARD.replace('/', '')], { relativeTo: route });
-    },
-  },
+  //{
+  //  icon: 'trophy',
+  //  label: 'Leaderboard',
+  //  visible: true,
+  //  url: AppRoutesNavigation.LEADERBOARD,
+  //  handlerClick: (router: Router, route: ActivatedRoute) => {
+  //    router.navigate([AppRoutesNavigation.LEADERBOARD.replace('/', '')], { relativeTo: route });
+  //  },
+  //},
   {
     icon: 'clipboard-text',
     label: 'Note',

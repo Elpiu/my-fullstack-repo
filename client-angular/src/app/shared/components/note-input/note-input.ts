@@ -1,5 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject, input, output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  effect,
+  inject,
+  input,
+  output,
+  signal,
+} from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -10,6 +18,7 @@ import { SimpleEntry } from '../../../core/models/appwrite';
 import { UserCategory, UserTag } from '../../../core/models/user-metadata';
 import { UserMetadaService } from '../../../core/services/user-metada-service';
 import { NoteService } from '../../services/note-service';
+import { TablerIconComponent } from 'angular-tabler-icons';
 
 export interface CompiledNoteInput {
   content: string;
@@ -26,68 +35,125 @@ export interface CompiledNoteInput {
     TextareaModule,
     ButtonModule,
     SelectModule,
+    TablerIconComponent,
   ],
   templateUrl: './note-input.html',
   styleUrl: './note-input.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NoteInput {
-  userMetadata = inject(UserMetadaService);
-  noteService = inject(NoteService);
-  messageService = inject(MessageService);
+  // Services
+  private userMetadata = inject(UserMetadaService);
+  private noteService = inject(NoteService);
+  private messageService = inject(MessageService);
+
+  // Inputs
   dateToSetISOFormat = input<string>();
 
+  // NUOVO: Riceviamo la nota da modificare (o null se nuova)
+  noteToEdit = input<SimpleEntry | null>(null);
+
+  // Outputs
+  saveComplete = output<SimpleEntry>(); // Rinominato per chiarezza (copre sia add che edit)
+
+  // Signals dati
   categories = this.userMetadata.categories;
   tags = this.userMetadata.tags;
 
-  newItemAdded = output<SimpleEntry>();
+  // UI State derivato
+  isEditMode = signal(false);
 
   noteForm = new FormGroup({
     content: new FormControl('', [Validators.required]),
+    // PrimeNG MultiSelect lavora con array di oggetti
     selectedCategories: new FormControl<UserCategory[]>([], [Validators.required]),
     selectedTags: new FormControl<UserTag[]>([]),
   });
 
+  constructor() {
+    // EFFECT: Popola il form quando cambia noteToEdit
+    effect(() => {
+      const entry = this.noteToEdit();
+
+      if (entry) {
+        this.isEditMode.set(true);
+        this.patchFormWithEntry(entry);
+      } else {
+        this.isEditMode.set(false);
+        this.noteForm.reset();
+      }
+    });
+  }
+
+  // Helper per convertire IDs salvati in Oggetti per il Form
+  private patchFormWithEntry(entry: SimpleEntry) {
+    // 1. Trova l'oggetto Categoria completo dall'ID
+    const foundCat = this.categories().find((c) => c.id === entry.categoryId);
+    const catValue = foundCat ? [foundCat] : [];
+
+    // 2. Trova gli oggetti Tag completi dagli ID
+    const foundTags = this.tags().filter((t) => entry.tagIdList?.includes(t.id));
+
+    this.noteForm.patchValue({
+      content: entry.content,
+      selectedCategories: catValue,
+      selectedTags: foundTags,
+    });
+  }
+
   async onSubmit() {
-    if (this.noteForm.valid) {
-      try {
-        const newNote = await this.noteService.createNote({
-          categoryId: this.getCategoryId(),
-          content: this.noteForm.value.content!,
-          date: this.dateToSetISOFormat() ?? new Date().toISOString(),
-          tagIdList: this.noteForm.value.selectedTags?.map((tag) => tag.id) || [],
-        });
+    if (this.noteForm.invalid) return;
+
+    const formVal = this.noteForm.value;
+    const entryId = this.noteToEdit()?.$id;
+
+    // Preparazione Payload
+    const payload = {
+      categoryId: this.getCategoryId(),
+      content: formVal.content!,
+      tagIdList: formVal.selectedTags?.map((tag) => tag.id) || [],
+      // Se è edit manteniamo la data originale, se è new usiamo quella passata o oggi
+      date: entryId
+        ? this.noteToEdit()!.date
+        : this.dateToSetISOFormat() ?? new Date().toISOString(),
+    };
+
+    try {
+      let result: SimpleEntry;
+
+      if (this.isEditMode() && entryId) {
+        // --- LOGICA UPDATE ---
+        result = await this.noteService.updateNote(entryId, payload);
         this.messageService.add({
           severity: 'success',
-          summary: 'Success',
+          summary: 'Updated',
+          detail: 'Note updated successfully',
+        });
+      } else {
+        // --- LOGICA CREATE ---
+        result = await this.noteService.createNote(payload);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Created',
           detail: 'Note created successfully',
         });
-
-        this.newItemAdded.emit(newNote);
-        this.noteForm.reset();
-      } catch (e) {
-        console.error(e);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error',
-          detail: 'Something went wrong',
-        });
       }
+
+      this.saveComplete.emit(result);
+
+      // Reset solo se siamo in modalità aggiunta continua, altrimenti il padre chiuderà il dialog
+      if (!this.isEditMode()) {
+        this.noteForm.reset();
+      }
+    } catch (e) {
+      console.error(e);
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Operation failed' });
     }
   }
 
   getCategoryId() {
-    if (!this.noteForm.value.selectedCategories) return 'cat_unknow';
-
-    return this.noteForm.value.selectedCategories.length > 0
-      ? this.noteForm.value.selectedCategories[0].id
-      : 'cat_unknow';
+    const cats = this.noteForm.value.selectedCategories;
+    if (!cats || cats.length === 0) return 'cat_unknow'; // Gestione fallback
+    return cats[0].id;
   }
-
-  reverseSelect = {
-    top: 'auto !important',
-    bottom: '100% !important',
-    'margin-bottom': '5px',
-    'transform-origin': 'center bottom',
-  };
 }

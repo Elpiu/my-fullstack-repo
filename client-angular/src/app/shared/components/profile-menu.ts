@@ -8,6 +8,7 @@ import { BadgeModule } from 'primeng/badge';
 import { UiDialog } from './ui-dialog/ui-dialog';
 import { AppStore } from '../../core/store/AppStore';
 import { MockDataService } from '../../core/services/mock-data.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-profile-menu',
@@ -59,13 +60,6 @@ export class ProfileMenu implements OnInit {
         label: 'Account',
         items: [
           {
-            label: 'Trigger Mock Data',
-            icon: 'database',
-            command: () => {
-              this.mockDataService.generateMockNotes(30);
-            },
-          },
-          {
             label: 'Logout',
             icon: 'logout',
             command: () => {
@@ -75,6 +69,17 @@ export class ProfileMenu implements OnInit {
         ],
       },
     ];
+    if (!environment.production && this.items[0]) {
+      let item = this.items[0].items;
+
+      item!.push({
+        label: 'Trigger Mock Data',
+        icon: 'database',
+        command: () => {
+          this.mockDataService.generateMockNotes(30);
+        },
+      });
+    }
   }
 
   handleLogout() {

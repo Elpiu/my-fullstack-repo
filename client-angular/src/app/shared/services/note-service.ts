@@ -34,7 +34,6 @@ export class NoteService {
     }
   }
 
-  date: string = new Date().toISOString();
   async createNote(payload: {
     tagIdList: string[] | null;
     content: string;
@@ -95,6 +94,23 @@ export class NoteService {
     } catch (error) {
       console.error('Errore getEntriesOfMonth:', error);
       return [];
+    }
+  }
+
+  async updateNote(rowId: string, payload: any): Promise<SimpleEntry> {
+    console.log('payload', payload);
+    try {
+      const row = await this.tablesDb.updateRow<SimpleEntry>({
+        databaseId: env.database,
+        tableId: env.tb_entry,
+        rowId: rowId,
+        data: payload,
+      });
+
+      return row;
+    } catch (error) {
+      console.error('Errore nella modifica della nota:', error);
+      throw error;
     }
   }
 }

@@ -8,7 +8,7 @@ import { Toast } from 'primeng/toast';
   imports: [TopBar, RouterOutlet, Toast],
   template: `
     <div class="max-w-screen-xl mx-auto">
-      <div class="flex flex-col h-screen font-sans">
+      <div class="flex flex-col  font-sans">
         <app-top-bar />
         <main class="flex-1 overflow-y-auto">
           <router-outlet />

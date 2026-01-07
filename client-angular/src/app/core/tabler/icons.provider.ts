@@ -58,6 +58,9 @@ import {
   IconArrowBackUp,
   IconClipboardXFilled,
   IconX,
+  IconChevronRight,
+  IconClock,
+  IconPencil,
 } from 'angular-tabler-icons/icons';
 
 export const COMMON_ICONS = {
@@ -73,6 +76,9 @@ export const COMMON_ICONS = {
   IconLogout,
   IconTrash,
   IconDatabase,
+  IconChevronRight,
+  IconClock,
+  IconPencil,
 
   //
   IconQuestionMark,

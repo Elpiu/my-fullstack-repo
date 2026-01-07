@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { Models } from 'appwrite';
 import { ButtonModule } from 'primeng/button';
 import { SimpleEntry } from '../../../core/models/appwrite';
@@ -149,5 +149,35 @@ export class NotePage implements OnInit {
 
   clearCategoryFilters() {
     this.selectedCategoryIds.set([]);
+  }
+
+  async handleDelete(id: string) {
+    await this.noteService
+      .deleteNote(id)
+      .then(() => this.allEntries.update((entries) => entries.filter((entry) => entry.$id !== id)));
+  }
+
+  editingEntry = signal<SimpleEntry | null>(null);
+  handleEdit(entry: SimpleEntry) {
+    this.editingEntry.set(entry);
+    this.isInputOpen.set(true);
+  }
+
+  onNoteSaved(event: SimpleEntry) {
+    this.allEntries.update((entries) =>
+      entries.map((entry) => (entry.$id === event.$id ? event : entry))
+    );
+    this.isInputOpen.set(false);
+    this.editingEntry.set(null);
+  }
+
+  constructor() {
+    const onModalHide = effect(() => {
+      let val = this.isInputOpen();
+      if (!val) {
+        this.isInputOpen.set(false);
+        this.editingEntry.set(null);
+      }
+    });
   }
 }

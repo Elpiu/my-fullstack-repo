@@ -1,60 +1,96 @@
-<div>
-  <form [formGroup]="noteForm">
-    <!-- RIGA 1: MultiSelect -->
-    <div class="flex grid gap-2 mb-3">
-      <div class="flex-1">
+<div class="w-full">
+  <form [formGroup]="noteForm" class="flex flex-col gap-4">
+    <!-- RIGA 1: Selettori (Stack verticale su mobile, affiancati su desktop) -->
+    <div class="flex flex-col sm:flex-row gap-3">
+      <!-- Categoria -->
+      <div class="flex-1 min-w-0">
+        <!-- min-w-0 previene overflow flex -->
         <p-multiSelect
           [options]="categories()"
           formControlName="selectedCategories"
           optionLabel="label"
-          placeholder="Categoria"
+          placeholder="Select Category"
           display="chip"
           [showToggleAll]="false"
           selectionLimit="1"
-          styleClass="w-full text-sm !rounded-xl !border-gray-200"
-          panelStyleClass="!rounded-xl !shadow-lg"
+          styleClass="w-full"
+          panelStyleClass="max-w-[90vw] sm:max-w-xs"
+          appendTo="body"
+        >
+          <!-- Template Dropdown Item -->
+          <ng-template let-item pTemplate="item">
+            <div class="flex items-center gap-2">
+              <tabler-icon [name]="item.icon" class="w-5 h-5 text-color-secondary"></tabler-icon>
+              <span class="font-medium">{{ item.label }}</span>
+            </div>
+          </ng-template>
+
+          <!-- Template Chip Selezionato (Opzionale, per mostrare l'icona anche quando selezionato) -->
+          <ng-template let-value pTemplate="selectedItems">
+            @for(item of value; track item.id) {
+            <div
+              class="inline-flex items-center gap-1 px-2 py-0.5 bg-surface-100 dark:bg-surface-800 rounded-md text-sm mr-1"
+            >
+              <tabler-icon [name]="item.icon" class="w-4 h-4"></tabler-icon>
+              <span>{{ item.label }}</span>
+            </div>
+            } @if(!value || value.length === 0) {
+            <span class="text-color-secondary"></span>
+            }
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <!-- Tag -->
+      <div class="flex-1 min-w-0">
+        <p-multiSelect
+          [options]="tags()"
+          formControlName="selectedTags"
+          optionLabel="label"
+          placeholder="Add a Tag"
+          display="chip"
+          [showToggleAll]="false"
+          styleClass="w-full"
+          panelStyleClass="max-w-[90vw] sm:max-w-xs"
           appendTo="body"
         >
           <ng-template let-item pTemplate="item">
             <div class="flex items-center gap-2">
-              <i [class]="'pi ' + (item.icon || 'pi-tag')"></i>
+              <i class="pi pi-hashtag text-color-secondary text-xs"></i>
               <span>{{ item.label }}</span>
             </div>
           </ng-template>
         </p-multiSelect>
       </div>
-
-      <div class="flex-1">
-        <p-multiSelect
-          [options]="tags()"
-          formControlName="selectedTags"
-          optionLabel="label"
-          placeholder="Tag"
-          display="chip"
-          [showToggleAll]="false"
-          styleClass="w-full text-sm !rounded-xl !border-gray-200"
-          panelStyleClass="!rounded-xl !shadow-lg"
-          appendTo="body"
-        />
-      </div>
     </div>
 
-    <!-- RIGA 2: Input + Button -->
-    <div class="flex gap-2 h-32">
+    <!-- RIGA 2: Textarea + Action Button -->
+    <!-- Ho aumentato h-32 a h-40 per dare più respiro al testo su mobile -->
+    <div class="flex gap-3 h-40 relative group">
       <textarea
         pInputTextarea
         formControlName="content"
-        placeholder="Scrivi una nota..."
-        class="flex-1 !resize-none !rounded-xl !border-gray-200 !bg-gray-50 focus:!bg-white focus:!border-primary-400 !py-3 !text-sm custom-scrollbar"
+        placeholder="Write your note..."
+        class="flex-1 resize-none h-full !p-4 leading-relaxed custom-scrollbar bg-surface-50 dark:bg-surface-900 focus:bg-surface-0 dark:focus:bg-surface-950 transition-colors"
       ></textarea>
 
-      <button
-        pButton
+      <!-- Bottone di invio -->
+      <!-- 
+         - Su mobile: stretto (w-14) per non rubare spazio.
+         - Hover: leggera elevazione.
+         - Focus: ring primary.
+      -->
+      <p-button
         [disabled]="noteForm.invalid"
-        (click)="onSubmit()"
-        icon="pi pi-chevron-right"
-        class="!w-14 !h-full !rounded-xl !bg-white !text-gray-800 !border !border-gray-200 hover:!bg-primary-50 hover:!border-primary-500 hover:!text-primary-600 shadow-sm transition-all"
-      ></button>
+        (onClick)="onSubmit()"
+        styleClass="h-full w-14 !p-0 flex items-center justify-center shadow-sm"
+        [outlined]="false"
+      >
+        <ng-template pTemplate="icon">
+          <!-- Icona Tabler centrata e dimensionata correttamente -->
+          <tabler-icon name="chevron-right" class="w-6 h-6"></tabler-icon>
+        </ng-template>
+      </p-button>
     </div>
   </form>
 </div>
