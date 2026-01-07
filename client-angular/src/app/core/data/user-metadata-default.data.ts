@@ -1,15 +1,5 @@
 import { UserCategory, UserTag } from '../models/user-metadata';
 
-export const listIconsCategory = [
-  'question-mark',
-  'briefcase-2',
-  'user',
-  'bulb',
-  'cash',
-  'heart',
-  'book',
-];
-
 export const UNKNOW_CATEGORY: UserCategory = {
   id: 'cat_unknow',
   label: 'Sconosciuto',
@@ -20,67 +10,143 @@ export const UNKNOW_CATEGORY: UserCategory = {
 export const DEFAULT_CATEGORIES: UserCategory[] = [
   {
     id: 'cat_work',
-    label: 'Lavoro',
+    label: 'Work',
+    color: 'blue-600',
     icon: 'briefcase-2',
-    color: 'emerald-500',
   },
   {
     id: 'cat_personal',
-    label: 'Personale',
+    label: 'Personal',
+    color: 'purple-600',
     icon: 'user',
-    color: 'blue-500',
+  },
+  {
+    id: 'cat_tasks',
+    label: 'To-Do',
+    color: 'orange-400',
+    icon: 'checklist',
   },
   {
     id: 'cat_ideas',
-    label: 'Idee',
+    label: 'Ideas',
+    color: 'amber-300',
     icon: 'bulb',
-    color: 'amber-500',
   },
   {
-    id: 'cat_finance',
-    label: 'Finanza',
+    id: 'cat_finances',
+    label: 'Finances',
+    color: 'emerald-600',
     icon: 'cash',
-    color: 'purple-500',
+  },
+  {
+    id: 'cat_shopping',
+    label: 'Shopping',
+    color: 'pink-600',
+    icon: 'shopping-cart',
   },
   {
     id: 'cat_health',
-    label: 'Salute',
+    label: 'Health & Habits',
+    color: 'rose-600',
     icon: 'heart',
-    color: 'rose-500',
   },
   {
-    id: 'cat_study',
-    label: 'Studio',
-    icon: 'book',
-    color: 'indigo-500',
+    id: 'cat_fitness',
+    label: 'Fitness',
+    color: 'red-600',
+    icon: 'barbell',
+  },
+  {
+    id: 'cat_home',
+    label: 'Household',
+    color: 'slate-400',
+    icon: 'home',
+  },
+  {
+    id: 'cat_vehicle',
+    label: 'Vehicle',
+    color: 'gray-800',
+    icon: 'car',
   },
 ];
 
 export const DEFAULT_TAGS: UserTag[] = [
   {
     id: 'tag_urgent',
-    label: 'Urgente',
+    label: 'Urgent',
   },
   {
     id: 'tag_todo',
-    label: 'Da Fare',
+    label: 'To Do',
   },
   {
-    id: 'tag_shopping',
-    label: 'Spesa',
+    id: 'tag_working',
+    label: 'Working',
   },
+  {
+    id: 'tag_done',
+    label: 'Done',
+  },
+
   {
     id: 'tag_meeting',
     label: 'Meeting',
   },
   {
-    id: 'tag_home',
-    label: 'Casa',
+    id: 'tag_idea',
+    label: 'Idea',
+  },
+
+  {
+    id: 'tag_cleaning',
+    label: 'Cleaning',
   },
   {
-    id: 'tag_goal',
-    label: 'Obiettivi',
+    id: 'tag_laundry',
+    label: 'Laundry',
   },
+  {
+    id: 'tag_dishwasher',
+    label: 'Dishwasher',
+  },
+
+  {
+    id: 'tag_hydration',
+    label: 'Hydration',
+  },
+  {
+    id: 'tag_digestion',
+    label: 'Digestion',
+  },
+  {
+    id: 'tag_mood',
+    label: 'Mood',
+  },
+
+  // Spesa e Finanze
+  {
+    id: 'tag_groceries',
+    label: 'Groceries',
+  },
+  {
+    id: 'tag_expense',
+    label: 'Expense',
+  },
+
+  {
+    id: 'tag_gym',
+    label: 'Gym',
+  },
+
+  {
+    id: 'tag_fuel',
+    label: 'Fuel',
+  },
+  {
+    id: 'tag_maintenance',
+    label: 'Maintenance',
+  },
+
   {
     id: 'year_2025',
     label: '2025',
