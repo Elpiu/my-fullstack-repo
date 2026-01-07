@@ -78,7 +78,7 @@
                 {
                     "key": "content",
                     "type": "string",
-                    "required": true,
+                    "required": false,
                     "array": false,
                     "size": 2046,
                     "default": null,
