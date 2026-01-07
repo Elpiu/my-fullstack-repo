@@ -164,9 +164,15 @@ export class NotePage implements OnInit {
   }
 
   onNoteSaved(event: SimpleEntry) {
-    this.allEntries.update((entries) =>
-      entries.map((entry) => (entry.$id === event.$id ? event : entry))
-    );
+    if (this.editingEntry() === null) {
+      this.pushNewNoteIntoEntries(event);
+      return;
+    } else {
+      this.allEntries.update((entries) =>
+        entries.map((entry) => (entry.$id === event.$id ? event : entry))
+      );
+    }
+
     this.isInputOpen.set(false);
     this.editingEntry.set(null);
   }
