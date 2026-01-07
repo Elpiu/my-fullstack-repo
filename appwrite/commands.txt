@@ -48,3 +48,10 @@ https://cloud.appwrite.io/v1/account/sessions/oauth2/callback/google/PROJECT_ID
 
 
 
+# Fe Deplpoy
+
+- aggiungi anche un dominio e nella dashboard una piwattofroma web con quel dominio
+
+Settings 
+
+![FE Deploy Architecture](full-stack-repo-fe-deploy.png)
