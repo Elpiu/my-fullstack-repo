@@ -34,7 +34,7 @@ export class NotePage implements OnInit {
   private noteService = inject(NoteService);
   public metadataService = inject(UserMetadaService);
 
-  selectedDate = signal<Date | null>(null);
+  selectedDate = signal<Date | null>(new Date());
   allEntries = signal<SimpleEntry[]>([]);
   isLoading = signal(false);
   isInputOpen = signal(false);
