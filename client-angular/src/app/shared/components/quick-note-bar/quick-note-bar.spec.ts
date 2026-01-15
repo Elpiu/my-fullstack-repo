@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LeaderboardPage } from './leaderboard-page';
+import { QuickNoteBar } from './quick-note-bar';
 
-describe('LeaderboardPage', () => {
-  let component: LeaderboardPage;
-  let fixture: ComponentFixture<LeaderboardPage>;
+describe('QuickNoteBar', () => {
+  let component: QuickNoteBar;
+  let fixture: ComponentFixture<QuickNoteBar>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LeaderboardPage]
+      imports: [QuickNoteBar]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(LeaderboardPage);
+    fixture = TestBed.createComponent(QuickNoteBar);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

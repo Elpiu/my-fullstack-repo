@@ -74,23 +74,35 @@
         class="flex-1 resize-none h-full !p-4 leading-relaxed custom-scrollbar bg-surface-50 dark:bg-surface-900 focus:bg-surface-0 dark:focus:bg-surface-950 transition-colors"
       ></textarea>
 
-      <!-- Bottone di invio -->
-      <!-- 
-         - Su mobile: stretto (w-14) per non rubare spazio.
-         - Hover: leggera elevazione.
-         - Focus: ring primary.
-      -->
-      <p-button
-        [disabled]="noteForm.invalid"
-        (onClick)="onSubmit()"
-        styleClass="h-full w-14 !p-0 flex items-center justify-center shadow-sm"
-        [outlined]="false"
-      >
-        <ng-template pTemplate="icon">
-          <!-- Icona Tabler centrata e dimensionata correttamente -->
-          <tabler-icon name="chevron-right" class="w-6 h-6"></tabler-icon>
-        </ng-template>
-      </p-button>
+      <div class="flex flex-col gap-2 w-14 shrink-0 h-full">
+        <p-button
+          severity="secondary"
+          [outlined]="true"
+          styleClass="!bg-transparent"
+          (onClick)="saveAsTemplateClick()"
+          pTooltip="Save as Quick Template"
+          [disabled]="noteForm.invalid"
+        >
+          <ng-template pTemplate="icon">
+            <tabler-icon
+              [name]="'star'"
+              class="w-5 h-5 text-amber-400"
+              tooltipPosition="bottom"
+            ></tabler-icon>
+          </ng-template>
+        </p-button>
+
+        <p-button
+          [disabled]="noteForm.invalid"
+          (onClick)="onSubmit()"
+          styleClass="w-full h-full !p-0 flex items-center justify-center shadow-sm !bg-primary !border-primary"
+          class="flex-1"
+        >
+          <ng-template pTemplate="icon">
+            <tabler-icon name="chevron-right" class="w-7 h-7 text-primary-contrast"></tabler-icon>
+          </ng-template>
+        </p-button>
+      </div>
     </div>
   </form>
 </div>

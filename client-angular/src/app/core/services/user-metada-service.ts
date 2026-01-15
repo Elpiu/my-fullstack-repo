@@ -3,7 +3,7 @@ import { computed, inject, Injectable, signal } from '@angular/core';
 import { ID, Models, Permission, Query, Role, TablesDB } from 'appwrite';
 import { APPWRITE_TABLE_DATABASE } from '../../appwrite/appwrite.config';
 import { DEFAULT_CATEGORIES, DEFAULT_TAGS } from '../data/user-metadata-default.data';
-import { UserCategory, UserTag } from '../models/user-metadata';
+import { NoteTemplate, UserCategory, UserTag } from '../models/user-metadata';
 import { UserMetadata } from '../models/appwrite';
 import { environment as env } from '../../../environments/environment';
 
@@ -11,6 +11,7 @@ interface UserMetadataState {
   rowId: string | null;
   categories: UserCategory[];
   tags: UserTag[];
+  favoriteNotes: NoteTemplate[];
   isLoading: boolean;
   error: string | null;
   isFristLoad: boolean;
@@ -25,6 +26,7 @@ export class UserMetadaService {
   private readonly state = signal<UserMetadataState>({
     categories: [],
     tags: [],
+    favoriteNotes: [],
     isLoading: false,
     error: null,
     isFristLoad: true,
@@ -35,6 +37,7 @@ export class UserMetadaService {
 
   readonly categories = computed(() => this.state().categories);
   readonly tags = computed(() => this.state().tags);
+  readonly favoriteNotes = computed(() => this.state().favoriteNotes);
   readonly isLoading = computed(() => this.state().isLoading);
 
   readonly mapCategories = computed<Record<string, UserCategory>>(() =>
@@ -119,12 +122,29 @@ export class UserMetadaService {
     this.setUserMetadata(this.userId()!, copyState);
   }
 
+  async addFavoriteNote(template: Omit<NoteTemplate, 'id'>): Promise<void> {
+    const newId = crypto.randomUUID();
+    const newTemplate: NoteTemplate = { ...template, id: newId };
+
+    let copyState = this.state();
+    copyState.favoriteNotes.push(newTemplate);
+
+    await this.setUserMetadata(this.userId()!, copyState);
+  }
+
+  async deleteFavoriteNote(templateId: string): Promise<void> {
+    let copyState = this.state();
+    copyState.favoriteNotes = copyState.favoriteNotes.filter((n) => n.id !== templateId);
+    await this.setUserMetadata(this.userId()!, copyState);
+  }
+
   // --- End CRUD
 
   private async setUserMetadata(userId: string, userMetaState: UserMetadataState) {
     const payload = {
       categoriesJson: JSON.stringify(userMetaState.categories),
       tagsJson: JSON.stringify(userMetaState.tags),
+      favoriteNotesJson: JSON.stringify(userMetaState.favoriteNotes || []),
     };
 
     let metadata: any;
@@ -202,6 +222,10 @@ export class UserMetadaService {
 
       const parsedTags: UserTag[] = rowData.tagsJson ? JSON.parse(rowData.tagsJson) : [];
 
+      const parsedFavorites: NoteTemplate[] = rowData.favoriteNotesJson
+        ? JSON.parse(rowData.favoriteNotesJson)
+        : [];
+
       const rowId = rowData.$id;
 
       this.state.update((s) => ({
@@ -209,6 +233,7 @@ export class UserMetadaService {
         categories: parsedCategories,
         tags: parsedTags,
         rowId: rowId,
+        favoriteNotes: parsedFavorites,
       }));
     } catch (e) {
       console.error('Errore nel parsing del JSON dei metadati:', e);

@@ -8,7 +8,6 @@ export class AppRoutesNavigation {
   static readonly CALLBACK = '/auth/callback';
   static readonly HOME = '/app';
 
-  static readonly LEADERBOARD = '/leaderboard';
   static readonly TASK = '/task';
   static readonly NOTE = '/note';
   static readonly SETTINGS = '/settings';
@@ -18,15 +17,6 @@ export class AppRoutesNavigation {
 }
 
 const APP_TOPBAR_ITEMS: TopbarItem[] = [
-  {
-    icon: 'trophy',
-    label: 'Leaderboard',
-    visible: true,
-    url: AppRoutesNavigation.LEADERBOARD,
-    handlerClick: (router: Router, route: ActivatedRoute) => {
-      router.navigate([AppRoutesNavigation.LEADERBOARD.replace('/', '')], { relativeTo: route });
-    },
-  },
   {
     icon: 'checklist',
     label: 'Task',

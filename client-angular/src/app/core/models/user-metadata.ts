@@ -9,3 +9,10 @@ export interface UserTag {
   id: string;
   label: string;
 }
+
+export interface NoteTemplate {
+  id: string;
+  label: string;
+  categoryId: string;
+  tagIdList: string[];
+}

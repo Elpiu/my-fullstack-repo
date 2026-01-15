@@ -6,6 +6,7 @@ import { type Models } from 'appwrite';
 export type UserMetadata = Models.Row & {
   categoriesJson: string;
   tagsJson: string;
+  favoriteNotesJson: string;
 };
 export type SimpleEntry = Models.Row & {
   tagIdList: string[] | null;

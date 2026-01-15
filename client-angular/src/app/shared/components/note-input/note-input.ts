@@ -15,7 +15,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { SelectModule } from 'primeng/select';
 import { MessageService } from 'primeng/api';
 import { SimpleEntry } from '../../../core/models/appwrite';
-import { UserCategory, UserTag } from '../../../core/models/user-metadata';
+import { NoteTemplate, UserCategory, UserTag } from '../../../core/models/user-metadata';
 import { UserMetadaService } from '../../../core/services/user-metada-service';
 import { NoteService } from '../../services/note-service';
 import { TablerIconComponent } from 'angular-tabler-icons';
@@ -50,15 +50,14 @@ export class NoteInput {
   // Inputs
   dateToSetISOFormat = input<string>();
 
-  // NUOVO: Riceviamo la nota da modificare (o null se nuova)
   noteToEdit = input<SimpleEntry | null>(null);
 
-  // Outputs
-  saveComplete = output<SimpleEntry>(); // Rinominato per chiarezza (copre sia add che edit)
+  saveComplete = output<SimpleEntry>();
 
   // Signals dati
   categories = this.userMetadata.categories;
   tags = this.userMetadata.tags;
+  saveAsTemplate = output<Omit<NoteTemplate, 'id'>>();
 
   // UI State derivato
   isEditMode = signal(false);
@@ -118,6 +117,10 @@ export class NoteInput {
         : this.dateToSetISOFormat() ?? new Date().toISOString(),
     };
 
+    await this.saveProcess(payload, entryId);
+  }
+
+  private async saveProcess(payload: any, entryId?: string) {
     try {
       let result: SimpleEntry;
 
@@ -151,9 +154,18 @@ export class NoteInput {
     }
   }
 
+  saveAsTemplateClick() {
+    const formVal = this.noteForm.value;
+    this.saveAsTemplate.emit({
+      label: formVal.content || '',
+      categoryId: this.getCategoryId(),
+      tagIdList: formVal.selectedTags?.map((tag) => tag.id) || [],
+    });
+  }
+
   getCategoryId() {
     const cats = this.noteForm.value.selectedCategories;
-    if (!cats || cats.length === 0) return 'cat_unknow'; // Gestione fallback
+    if (!cats || cats.length === 0) return 'cat_unknow';
     return cats[0].id;
   }
 }

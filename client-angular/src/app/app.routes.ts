@@ -45,12 +45,6 @@ export const routes: Routes = [
       },
 
       {
-        path: AppRoutesNavigation.LEADERBOARD.replace('/', ''),
-        loadComponent: () =>
-          import('./features/leaderboard/leaderboard-page').then((m) => m.LeaderboardPage),
-      },
-
-      {
         path: 'profile',
         loadComponent: () =>
           import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),

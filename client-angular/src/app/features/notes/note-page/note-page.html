@@ -4,6 +4,10 @@
   </div>
 
   <div class="pt-4">
+    <div class="px-4 pb-2 pt-1 animate-in slide-in-from-top-2">
+      <app-quick-notes-bar (onSelect)="handleQuickNoteAdd($event)" />
+    </div>
+
     <div class="rounded-[20px]">
       <p-datepicker
         #datePicker
@@ -158,5 +162,6 @@
     [dateToSetISOFormat]="getLocalDateISO()"
     [noteToEdit]="editingEntry()"
     (saveComplete)="onNoteSaved($event)"
+    (saveAsTemplate)="onSaveAsTemplate($event)"
   />
 </app-ui-dialog>

@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from '@angular/common';
-import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject, OnInit, signal, viewChild } from '@angular/core';
 import { Models } from 'appwrite';
 import { ButtonModule } from 'primeng/button';
 import { SimpleEntry } from '../../../core/models/appwrite';
@@ -12,6 +12,9 @@ import { NoteInput } from '../../../shared/components/note-input/note-input';
 import { FormsModule } from '@angular/forms';
 import { DatePickerModule } from 'primeng/datepicker';
 import { TablerIconComponent } from 'angular-tabler-icons';
+import { QuickNoteBar } from '../../../shared/components/quick-note-bar/quick-note-bar';
+import { NoteTemplate } from '../../../core/models/user-metadata';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-note-page',
@@ -26,13 +29,17 @@ import { TablerIconComponent } from 'angular-tabler-icons';
     DatePickerModule,
     UiDialog,
     TablerIconComponent,
+    QuickNoteBar,
   ],
   templateUrl: './note-page.html',
   styleUrl: './note-page.css',
 })
 export class NotePage implements OnInit {
+  private noteInputComponent = viewChild<NoteInput>('noteInput');
+
   private noteService = inject(NoteService);
   public metadataService = inject(UserMetadaService);
+  messageService = inject(MessageService);
 
   selectedDate = signal<Date | null>(new Date());
   allEntries = signal<SimpleEntry[]>([]);
@@ -185,5 +192,51 @@ export class NotePage implements OnInit {
         this.editingEntry.set(null);
       }
     });
+  }
+
+  async handleQuickNoteAdd(template: NoteTemplate) {
+    const payload = {
+      categoryId: template.categoryId,
+      content: template.label,
+      tagIdList: template.tagIdList,
+      date: this.selectedDate() ? this.getLocalDateISO()! : new Date().toISOString(),
+    };
+
+    await this.noteService
+      .createNote(payload)
+      .then((entry) => {
+        this.onNoteSaved(entry);
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Created',
+          detail: 'Note created successfully',
+        });
+      })
+      .catch((e) => {
+        console.error(e);
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error',
+          detail: 'Operation failed',
+        });
+      });
+  }
+
+  onSaveAsTemplate(data: Omit<NoteTemplate, 'id'>) {
+    this.metadataService
+      .addFavoriteNote(data)
+      .then(() => {
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Template saved',
+        });
+      })
+      .catch((error) => {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error saving template',
+          detail: error.message || 'Unknown error',
+        });
+      });
   }
 }
