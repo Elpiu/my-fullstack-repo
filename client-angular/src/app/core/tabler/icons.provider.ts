@@ -62,6 +62,10 @@ import {
   IconClock,
   IconPencil,
   IconChecklist,
+  IconBookmark,
+  IconBookmarkOff,
+  IconFileText,
+  IconDeviceFloppy,
 } from 'angular-tabler-icons/icons';
 
 export const COMMON_ICONS = {
@@ -81,6 +85,10 @@ export const COMMON_ICONS = {
   IconClock,
   IconPencil,
   IconChecklist,
+  IconBookmark,
+  IconBookmarkOff,
+  IconFileText,
+  IconDeviceFloppy,
 
   //
   IconQuestionMark,

@@ -12,4 +12,5 @@ export const environment = {
   database: '691e33bc00199c3bb5b2',
   tb_entry: 'simpleentry',
   tb_user_metadata: 'usermetadata',
+  tb_task_item: 'taskitem',
 };

@@ -1,0 +1,96 @@
+<div class="max-w-2xl mx-auto p-2 flex flex-col h-full">
+  <p-confirmpopup />
+  <div class="mb-6">
+    <h1 class="text-2xl font-bold text-color mb-1">Tasks</h1>
+    <p class="text-sm text-color-secondary">Manage your tasks</p>
+  </div>
+
+  <app-create-task
+    class="mb-8 sticky top-2 z-20"
+    #createTaskComponent
+    (addTaskItem)="addTask($event)"
+  />
+
+  @if (isLoading()) {
+  <div class="space-y-3 animate-pulse">
+    <div class="h-14 bg-surface-100 dark:bg-surface-800 rounded-xl"></div>
+    <div class="h-14 bg-surface-100 dark:bg-surface-800 rounded-xl"></div>
+  </div>
+  }
+
+  <div class="flex flex-col gap-3 pb-20">
+    @for (task of activeTasks(); track task.$id) {
+    <app-task-item
+      [task]="task"
+      (onToggle)="toggleTask($event)"
+      (onDelete)="deleteTask($event)"
+      (onEdit)="setEditTask($event)"
+      (onViewDescription)="setViewTask($event)"
+      class="animate-in fade-in slide-in-from-bottom-2 duration-300"
+    />
+    } @empty { @if (!isLoading()) {
+    <div class="text-center py-10 opacity-50 flex flex-col items-center">
+      <tabler-icon name="clipboard-check" class="w-12 h-12 mb-2 text-surface-400"></tabler-icon>
+      <p>Everything done! No active tasks.</p>
+    </div>
+    } } @if (completedTasks().length > 0) {
+
+    <div class="mt-8">
+      <div class="flex justify-between items-center mb-3 ml-1">
+        <h3 class="text-xs font-bold text-color-secondary uppercase tracking-widest">
+          Completed recently
+        </h3>
+
+        <p-button
+          severity="danger"
+          label="Clear All"
+          styleClass="!bg-transparent !text-color !text-sm"
+          (onClick)="confirmClearAll($event)"
+        ></p-button>
+      </div>
+
+      <div class="flex flex-col gap-2 opacity-60 hover:opacity-100 transition-opacity">
+        @for (task of completedTasks(); track task.$id) {
+        <app-task-item
+          [task]="task"
+          (onToggle)="toggleTask($event)"
+          (onDelete)="deleteTask($event)"
+        />
+        }
+      </div>
+    </div>
+    }
+  </div>
+</div>
+
+<app-edit-task
+  [(isEditDialogVisible)]="isEditDialogVisible"
+  [editingTask]="taskItemToView()"
+  (onSave)="handleEditTaskSave($event)"
+/>
+
+<p-dialog
+  [(visible)]="isViewDialogVisible"
+  modal="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="w-full max-w-sm m-4 rounded-xl overflow-hidden"
+  [showHeader]="false"
+  [dismissableMask]="true"
+>
+  @if (taskItemToView()) {
+  <div class="flex flex-col gap-4 p-5">
+    <div class="flex justify-between items-start">
+      <h3 class="font-bold text-lg leading-tight">{{ taskItemToView()?.title }}</h3>
+      <button (click)="isViewDialogVisible.set(false)" class="text-surface-400 hover:text-color">
+        <tabler-icon name="x"></tabler-icon>
+      </button>
+    </div>
+    <div
+      class="p-3 bg-surface-50 dark:bg-surface-900 rounded-lg text-sm leading-relaxed whitespace-pre-wrap text-color-secondary max-h-[60vh] overflow-y-auto"
+    >
+      {{ taskItemToView()?.description }}
+    </div>
+  </div>
+  }
+</p-dialog>

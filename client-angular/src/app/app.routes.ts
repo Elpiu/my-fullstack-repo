@@ -24,25 +24,36 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: AppRoutesNavigation.Note.replace('/', ''),
+        redirectTo: AppRoutesNavigation.TASK.replace('/', ''),
         pathMatch: 'full',
       },
 
       {
-        path: AppRoutesNavigation.Note.replace('/', ''),
+        path: AppRoutesNavigation.NOTE.replace('/', ''),
         loadComponent: () => import('./features/notes/note-page/note-page').then((m) => m.NotePage),
-      },
-
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),
       },
 
       {
         path: AppRoutesNavigation.SETTINGS.replace('/', ''),
         loadComponent: () =>
           import('./features/settings/settings-page').then((m) => m.SettingsPage),
+      },
+
+      {
+        path: AppRoutesNavigation.TASK.replace('/', ''),
+        loadComponent: () => import('./features/task/taskd-page').then((m) => m.TaskdPage),
+      },
+
+      {
+        path: AppRoutesNavigation.LEADERBOARD.replace('/', ''),
+        loadComponent: () =>
+          import('./features/leaderboard/leaderboard-page').then((m) => m.LeaderboardPage),
+      },
+
+      {
+        path: 'profile',
+        loadComponent: () =>
+          import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),
       },
     ],
   },

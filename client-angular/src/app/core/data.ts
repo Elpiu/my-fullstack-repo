@@ -9,7 +9,8 @@ export class AppRoutesNavigation {
   static readonly HOME = '/app';
 
   static readonly LEADERBOARD = '/leaderboard';
-  static readonly Note = '/note';
+  static readonly TASK = '/task';
+  static readonly NOTE = '/note';
   static readonly SETTINGS = '/settings';
 
   static readonly PAGE_TERMS = '/terms';
@@ -17,22 +18,31 @@ export class AppRoutesNavigation {
 }
 
 const APP_TOPBAR_ITEMS: TopbarItem[] = [
-  //{
-  //  icon: 'trophy',
-  //  label: 'Leaderboard',
-  //  visible: true,
-  //  url: AppRoutesNavigation.LEADERBOARD,
-  //  handlerClick: (router: Router, route: ActivatedRoute) => {
-  //    router.navigate([AppRoutesNavigation.LEADERBOARD.replace('/', '')], { relativeTo: route });
-  //  },
-  //},
+  {
+    icon: 'trophy',
+    label: 'Leaderboard',
+    visible: true,
+    url: AppRoutesNavigation.LEADERBOARD,
+    handlerClick: (router: Router, route: ActivatedRoute) => {
+      router.navigate([AppRoutesNavigation.LEADERBOARD.replace('/', '')], { relativeTo: route });
+    },
+  },
+  {
+    icon: 'checklist',
+    label: 'Task',
+    visible: true,
+    url: AppRoutesNavigation.TASK,
+    handlerClick: (router: Router, route: ActivatedRoute) => {
+      router.navigate([AppRoutesNavigation.TASK.replace('/', '')], { relativeTo: route });
+    },
+  },
   {
     icon: 'clipboard-text',
     label: 'Note',
     visible: true,
-    url: AppRoutesNavigation.Note,
+    url: AppRoutesNavigation.NOTE,
     handlerClick: (router: Router, route: ActivatedRoute) => {
-      router.navigate([AppRoutesNavigation.Note.replace('/', '')], { relativeTo: route });
+      router.navigate([AppRoutesNavigation.NOTE.replace('/', '')], { relativeTo: route });
     },
   },
   {

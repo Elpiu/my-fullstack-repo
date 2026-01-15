@@ -1,0 +1,119 @@
+<p-dialog
+  header="Edit Task"
+  [(visible)]="isEditDialogVisible"
+  modal="true"
+  [draggable]="false"
+  [resizable]="false"
+  styleClass="w-full max-w-md m-4"
+  [dismissableMask]="true"
+>
+  <div class="flex flex-col gap-5 pt-2">
+    <!-- Title Input -->
+    <div class="flex flex-col gap-1.5">
+      <label class="text-sm font-semibold text-color-secondary">Title</label>
+      <input
+        pInputText
+        [(ngModel)]="editTitle"
+        class="w-full font-medium"
+        placeholder="Task title"
+      />
+    </div>
+
+    <!-- Tracking Toggle -->
+    <div class="flex items-center justify-between p-3 rounded-xl border border-surface">
+      <div class="flex items-center gap-2">
+        <tabler-icon
+          [name]="editTrack() ? 'bookmark' : 'bookmark-off'"
+          class="transition-colors text-primary"
+        ></tabler-icon>
+        <div class="flex flex-col">
+          <span class="text-sm font-medium">Track in Journal</span>
+          <span class="text-xs text-color-secondary">Save as a note when completed</span>
+        </div>
+      </div>
+      <p-toggleButton
+        [(ngModel)]="editTrack"
+        onLabel="On"
+        offLabel="Off"
+        styleClass="w-16 !text-xs"
+      />
+    </div>
+
+    <!-- Conditional Categories & Tags -->
+    @if (editTrack()) {
+    <div class="flex flex-col gap-4 animate-in fade-in slide-in-from-top-2 p-1">
+      <!-- Category -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold uppercase text-color-secondary tracking-wider"
+          >Category</label
+        >
+        <p-multiSelect
+          [options]="categories()"
+          [(ngModel)]="editSelectedCategories"
+          optionLabel="label"
+          selectionLimit="1"
+          [showToggleAll]="false"
+          placeholder="Select a category"
+          styleClass="w-full"
+          appendTo="body"
+        >
+          <ng-template let-item pTemplate="item">
+            <div class="flex items-center gap-2">
+              <tabler-icon [name]="item.icon" class="w-4 h-4 text-surface-500"></tabler-icon>
+              <span>{{ item.label }}</span>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+
+      <!-- Tags -->
+      <div class="flex flex-col gap-1.5">
+        <label class="text-xs font-bold uppercase text-color-secondary tracking-wider">Tags</label>
+        <p-multiSelect
+          [options]="tags()"
+          [(ngModel)]="editSelectedTags"
+          optionLabel="label"
+          display="chip"
+          [showToggleAll]="false"
+          placeholder="Add tags"
+          styleClass="w-full"
+          appendTo="body"
+        >
+          <ng-template let-item pTemplate="item">
+            <div class="flex items-center gap-2">
+              <i class="pi pi-hashtag text-xs text-surface-500"></i>
+              <span>{{ item.label }}</span>
+            </div>
+          </ng-template>
+        </p-multiSelect>
+      </div>
+    </div>
+    }
+
+    <!-- Description Textarea -->
+    <div class="flex flex-col gap-1.5">
+      <label class="text-sm font-semibold text-color-secondary">Description</label>
+      <textarea
+        pInputTextarea
+        [autoResize]="true"
+        [(ngModel)]="editDescription"
+        rows="5"
+        class="w-full resize-none leading-relaxed custom-scrollbar max-h-[30vh] overflow-y-auto"
+        placeholder="Add details, notes or sub-tasks..."
+      ></textarea>
+    </div>
+
+    <!-- Footer Actions -->
+    <div class="flex gap-2 justify-end mt-4 pt-2 border-t">
+      <p-button
+        label="Cancel"
+        [text]="true"
+        severity="secondary"
+        (onClick)="isEditDialogVisible.set(false)"
+      />
+      <p-button label="Save Changes" [disabled]="!editTitle()" (onClick)="saveTask()">
+        <tabler-icon name="device-floppy" class="mr-2"></tabler-icon>
+      </p-button>
+    </div>
+  </div>
+</p-dialog>

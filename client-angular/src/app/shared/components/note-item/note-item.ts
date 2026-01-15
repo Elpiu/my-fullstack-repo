@@ -8,10 +8,11 @@ import { CommonModule } from '@angular/common';
 import { ConfirmationService } from 'primeng/api';
 import { ButtonModule } from 'primeng/button';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { TagListComponent } from '../tag/tag.components';
 
 @Component({
   selector: 'app-note-item',
-  imports: [CommonModule, TablerIconComponent, ConfirmPopupModule, ButtonModule],
+  imports: [CommonModule, TablerIconComponent, ConfirmPopupModule, ButtonModule, TagListComponent],
   providers: [ConfirmationService],
   template: `
     <p-confirmpopup />
@@ -87,16 +88,8 @@ import { ConfirmPopupModule } from 'primeng/confirmpopup';
 
       <!-- FOOTER: Tags -->
       @if(item().tagIdList?.length) {
-      <div class="mt-4 flex flex-wrap gap-2 pt-3 border-t border-surface">
-        @for(tagId of item().tagIdList; track $index) {
-        <span
-          class="text-xs text-color-secondary bg-surface-100 dark:bg-surface-800 px-2 py-0.5 rounded-md"
-        >
-          #{{ getTagLabel(tagId) }}
-        </span>
-        }
-      </div>
-      }
+
+      <tag-list-item [tagIdList]="item().tagIdList ?? []"></tag-list-item> }
     </div>
   `,
 })

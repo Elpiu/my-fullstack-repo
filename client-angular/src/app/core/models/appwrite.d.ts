@@ -13,3 +13,12 @@ export type SimpleEntry = Models.Row & {
   date: string;
   categoryId: string;
 };
+
+export type TaskItem = Models.Row & {
+  title: string;
+  description: string | null;
+  isCompleted: boolean;
+  track: boolean;
+  categoryId: string | null;
+  tagIdList: string[] | null;
+};
