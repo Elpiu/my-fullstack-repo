@@ -131,17 +131,28 @@
                     "size": 10000,
                     "default": "[]",
                     "encrypt": false
+                },
+                {
+                    "key": "favoriteNotesJson",
+                    "type": "string",
+                    "required": false,
+                    "array": false,
+                    "size": 50000,
+                    "default": "[]",
+                    "encrypt": false
                 }
             ],
             "indexes": []
         },
         {
             "$id": "taskitem",
-            "$permissions": [],
+            "$permissions": [
+                "create(\"users\")"
+            ],
             "databaseId": "691e33bc00199c3bb5b2",
             "name": "taskItem",
             "enabled": true,
-            "documentSecurity": false,
+            "documentSecurity": true,
             "attributes": [
                 {
                     "key": "title",
