@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { ID, Models, Permission, Query, Role, TablesDB } from 'appwrite';
-import { APPWRITE_TABLE_DATABASE } from '../../../../projects/core/src/lib/providers/appwrite.config';
+import { APPWRITE_TABLE_DATABASE } from '../../../../projects/core/src/providers/appwrite.config';
 import { DEFAULT_CATEGORIES, DEFAULT_TAGS } from '../data/user-metadata-default.data';
 import { NoteTemplate, UserCategory, UserTag } from '../models/user-metadata';
 import { UserMetadata } from '../models/appwrite';

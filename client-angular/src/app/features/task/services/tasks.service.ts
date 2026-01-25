@@ -1,6 +1,6 @@
 import { computed, inject, Injectable } from '@angular/core';
 import { ID, Models, Permission, Query, Role, TablesDB } from 'appwrite';
-import { APPWRITE_TABLE_DATABASE } from '../../../../../projects/core/src/lib/providers/appwrite.config';
+import { APPWRITE_TABLE_DATABASE } from '../../../../../projects/core/src/providers/appwrite.config';
 import { AppStore } from '../../../core/store/AppStore';
 import { TaskItem } from '../../../core/models/appwrite';
 import { environment as env } from '../../../../environments/environment';
