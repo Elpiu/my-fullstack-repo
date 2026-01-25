@@ -10,7 +10,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Account, Models, OAuthProvider } from 'appwrite';
-import { APPWRITE_CLIENT } from '../../../../projects/core/src/lib/providers/appwrite.config';
+import { APPWRITE_CLIENT } from '../../../../projects/core/src/providers/appwrite.config';
 import { AppStore } from '../../core/store/AppStore';
 import { AppRoutesNavigation } from '../../app.routes';
 

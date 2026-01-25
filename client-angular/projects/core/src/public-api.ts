@@ -2,4 +2,4 @@
  * Public API Surface of core
  */
 
-export * from './lib/providers/main.core.config';
+export * from './providers/main.core.config';
