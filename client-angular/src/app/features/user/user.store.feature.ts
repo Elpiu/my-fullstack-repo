@@ -10,7 +10,7 @@ import {
   withState,
 } from '@ngrx/signals';
 import { Account, Models, OAuthProvider } from 'appwrite';
-import { APPWRITE_CLIENT } from '../../appwrite/appwrite.config';
+import { APPWRITE_CLIENT } from '../../../../projects/core/src/lib/providers/appwrite.config';
 import { AppStore } from '../../core/store/AppStore';
 import { AppRoutesNavigation } from '../../app.routes';
 
@@ -42,7 +42,7 @@ export function withUserFeature() {
           OAuthProvider.Google,
           `${window.location.origin}${AppRoutesNavigation.CALLBACK}`,
           `${window.location.origin}${AppRoutesNavigation.LOGIN}`,
-          ['profile']
+          ['profile'],
         );
       },
       async checkSession() {
@@ -78,7 +78,7 @@ export function withUserFeature() {
         return store.user()?.$id ?? '';
       }),
     })),
-    withHooks((store) => ({}))
+    withHooks((store) => ({})),
   );
 }
 
