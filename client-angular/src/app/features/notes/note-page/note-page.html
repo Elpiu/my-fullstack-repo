@@ -28,7 +28,7 @@
             >
               <tabler-icon name="plus" class="w-5 h-5"></tabler-icon>
               <span class="font-bold text-sm">
-                {{ selectedDate() ? 'Note for day ' + (selectedDate() | date : 'd') : 'New Note' }}
+                {{ selectedDate() ? 'Note for day ' + (selectedDate() | date: 'd') : 'New Note' }}
               </span>
             </button>
           </div>
@@ -36,20 +36,22 @@
 
         <ng-template pTemplate="date" let-date>
           @if (!isLoading()) {
-          <div
-            class="relative w-8 h-8 flex items-center justify-center transition-all duration-200 rounded-full"
-            [class.border-2]="getEntryCount(date) > 0"
-          >
-            <span class="text-sm font-medium">{{ date.day }}</span>
-
-            @if (getEntryCount(date); as count) { @if (count > 0) {
             <div
-              class="absolute -top-1 -right-1.5 w-4 h-4 bg-primary-500 text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm z-10 border-2"
+              class="relative w-8 h-8 flex items-center justify-center transition-all duration-200 rounded-full"
+              [class.border-2]="getEntryCount(date) > 0"
             >
-              {{ count }}
+              <span class="text-sm font-medium">{{ date.day }}</span>
+
+              @if (getEntryCount(date); as count) {
+                @if (count > 0) {
+                  <div
+                    class="absolute -top-1 -right-1.5 w-4 h-4 bg-primary-500 text-[10px] font-bold flex items-center justify-center rounded-full shadow-sm z-10 border-2"
+                  >
+                    {{ count }}
+                  </div>
+                }
+              }
             </div>
-            } }
-          </div>
           }
         </ng-template>
       </p-datepicker>
@@ -59,103 +61,103 @@
         class="flex items-center gap-3 overflow-x-auto pb-4 pt-2 px-1 snap-x no-scrollbar mask-fade-right"
       >
         @if (selectedCategoryIds().length > 0) {
-        <div class="animate-in fade-in zoom-in duration-200 shrink-0 sticky left-0 z-10">
-          <button
-            (click)="clearCategoryFilters()"
-            class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-0 dark:bg-surface-900 border border-surface-300 dark:border-surface-600 text-color-secondary hover:text-red-500 hover:border-red-200 hover:bg-red-50 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
-            pTooltip="Remuve all filters"
-            tooltipPosition="bottom"
-            aria-label="Remuve all filters"
-          >
-            <tabler-icon name="x" class="w-5 h-5"></tabler-icon>
-          </button>
-        </div>
+          <div class="animate-in fade-in zoom-in duration-200 shrink-0 sticky left-0 z-10">
+            <button
+              (click)="clearCategoryFilters()"
+              class="flex items-center justify-center w-10 h-10 rounded-full bg-surface-0 dark:bg-surface-900 border border-surface-300 dark:border-surface-600 text-color-secondary hover:text-red-500 hover:border-red-200 hover:bg-red-50 shadow-sm hover:shadow-md transition-all duration-200 active:scale-95"
+              pTooltip="Remuve all filters"
+              tooltipPosition="bottom"
+              aria-label="Remuve all filters"
+            >
+              <tabler-icon name="x" class="w-5 h-5"></tabler-icon>
+            </button>
+          </div>
 
-        <!-- Separatore visivo sottile -->
-        <div class="w-px h-6 bg-surface-200 dark:bg-surface-700 shrink-0"></div>
+          <!-- Separatore visivo sottile -->
+          <div class="w-px h-6 bg-surface-200 dark:bg-surface-700 shrink-0"></div>
         }
 
         <!-- 2. Lista Categorie (Pills) -->
-        @for (cat of metadataService.categories(); track cat.id) { @let isSelected =
-        selectedCategoryIds().includes(cat.id);
+        @for (cat of metadataService.categories(); track cat.id) {
+          @let isSelected = selectedCategoryIds().includes(cat.id);
 
-        <button
-          (click)="toggleCategoryFilter(cat.id)"
-          class="group relative shrink-0 snap-start flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-700"
-          [class]="
-            isSelected
-              ? 'bg-primary text-primary-contrast border-primary shadow-md scale-[1.02]'
-              : 'bg-surface-0 dark:bg-surface-800 text-color-secondary border-surface hover:border-primary-300 hover:bg-surface-50 dark:hover:bg-surface-700'
-          "
-          [attr.aria-pressed]="isSelected"
-        >
-          <!-- Icona -->
-          <tabler-icon
-            [name]="cat.icon"
-            class="w-5 h-5 transition-transform duration-300"
-            [class.scale-110]="isSelected"
-          ></tabler-icon>
+          <button
+            (click)="toggleCategoryFilter(cat.id)"
+            class="group relative shrink-0 snap-start flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all duration-300 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-primary-300 dark:focus:ring-primary-700"
+            [class]="
+              isSelected
+                ? 'bg-primary text-primary-contrast border-primary shadow-md scale-[1.02]'
+                : 'bg-surface-0 dark:bg-surface-800 text-color-secondary border-surface hover:border-primary-300 hover:bg-surface-50 dark:hover:bg-surface-700'
+            "
+            [attr.aria-pressed]="isSelected"
+          >
+            <!-- Icona -->
+            <tabler-icon
+              [name]="cat.icon"
+              class="w-5 h-5 transition-transform duration-300"
+              [class.scale-110]="isSelected"
+            ></tabler-icon>
 
-          <!-- Label (Sempre visibile per UX migliore) -->
-          <span class="whitespace-nowrap">{{ cat.label }}</span>
+            <!-- Label (Sempre visibile per UX migliore) -->
+            <span class="whitespace-nowrap">{{ cat.label }}</span>
 
-          <!-- Badge di selezione (Opzionale: pallino per indicare stato attivo extra) -->
-          @if (isSelected) {
-          <span class="absolute -top-1 -right-1 flex h-3 w-3">
-            <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
-            ></span>
-            <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
-          </span>
-          }
-        </button>
+            <!-- Badge di selezione (Opzionale: pallino per indicare stato attivo extra) -->
+            @if (isSelected) {
+              <span class="absolute -top-1 -right-1 flex h-3 w-3">
+                <span
+                  class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"
+                ></span>
+                <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+              </span>
+            }
+          </button>
         } @empty {
-        <div class="text-sm text-color-secondary italic p-2">No Categories found</div>
+          <div class="text-sm text-color-secondary italic p-2">No Categories found</div>
         }
       </div>
     </div>
   </div>
   @if (selectedDate()) {
-  <div class="flex-1 overflow-y-auto px-4 pb-24 mt-4 custom-scrollbar">
-    <div class="flex items-center justify-between mb-6 pl-2">
-      <div class="flex items-center gap-3">
-        <div class="flex flex-col">
-          <span class="text-[10px] uppercase tracking-widest text-surface-400 font-bold"
-            >Diary of</span
+    <div class="flex-1 overflow-y-auto px-4 pb-24 mt-4 custom-scrollbar">
+      <div class="flex items-center justify-between mb-6 pl-2">
+        <div class="flex items-center gap-3">
+          <div class="flex flex-col">
+            <span class="text-[10px] uppercase tracking-widest text-surface-400 font-bold"
+              >Diary of</span
+            >
+            <h2 class="text-xl font-black leading-none">
+              {{ selectedDate() | date: 'dd MMM yyyy' }}
+            </h2>
+          </div>
+
+          <span
+            class="flex items-center justify-center h-6 px-2 rounded-lg bg-primary-500 text-[12px] font-black"
           >
-          <h2 class="text-xl font-black leading-none">
-            {{ selectedDate() | date : 'dd MMM yyyy' }}
-          </h2>
+            {{ selectedDayEntries().length }}
+          </span>
         </div>
-
-        <span
-          class="flex items-center justify-center h-6 px-2 rounded-lg bg-primary-500 text-[12px] font-black"
-        >
-          {{ selectedDayEntries().length }}
-        </span>
       </div>
-    </div>
 
-    @if (selectedDayEntries().length > 0) {
-    <app-journal
-      [entries]="selectedDayEntries()"
-      (onDeleteEntry)="handleDelete($event)"
-      (onEditEntry)="handleEdit($event)"
-    />
-    } @else {
-    <div class="flex flex-col items-center justify-center py-12 opacity-40">
-      <i-tabler name="notes" class="w-12 h-12 mb-2"></i-tabler>
-      <p class="text-sm">No notes found</p>
+      @if (selectedDayEntries().length > 0) {
+        <app-journal
+          [entries]="selectedDayEntries()"
+          (onDeleteEntry)="handleDelete($event)"
+          (onEditEntry)="handleEdit($event)"
+        />
+      } @else {
+        <div class="flex flex-col items-center justify-center py-12 opacity-40">
+          <i-tabler name="notes" class="w-12 h-12 mb-2"></i-tabler>
+          <p class="text-sm">No notes found</p>
+        </div>
+      }
     </div>
-    }
-  </div>
   }
 </div>
 
-<app-ui-dialog
+<uikit-dialog
   [(visible)]="isInputOpen"
   [header]="
-    (editingEntry() ? 'Edit note' : 'Add new note') + ' - ' + (selectedDate() | date : 'dd/MM')
+    (editingEntry() ? 'Edit note' : 'Add new note') + ' - ' + (selectedDate() | date: 'dd/MM')
   "
 >
   <app-note-input
@@ -164,4 +166,4 @@
     (saveComplete)="onNoteSaved($event)"
     (saveAsTemplate)="onSaveAsTemplate($event)"
   />
-</app-ui-dialog>
+</uikit-dialog>

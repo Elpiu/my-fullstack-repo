@@ -5,7 +5,7 @@ import { Menu } from 'primeng/menu';
 import { TablerIconComponent } from 'angular-tabler-icons';
 import { IconBadge } from 'angular-tabler-icons/icons';
 import { BadgeModule } from 'primeng/badge';
-import { UiDialog } from './ui-dialog/ui-dialog';
+import { UiDialog } from 'ui-kit';
 import { AppStore } from '../../core/store/AppStore';
 import { MockDataService } from '../../core/services/mock-data.service';
 import { environment } from '../../../environments/environment';
@@ -28,7 +28,7 @@ import { environment } from '../../../environments/environment';
       </p-button>
     </div>
 
-    <app-ui-dialog [(visible)]="showLogoutDialog" header="Confirm logout">
+    <uikit-dialog [(visible)]="showLogoutDialog" header="Confirm logout">
       <div class="py-4 text-center">
         <tabler-icon name="logout" size="48" class="text-red-500 mb-3"></tabler-icon>
         <p>Are you sure you want to logout?</p>
@@ -43,7 +43,7 @@ import { environment } from '../../../environments/environment';
         />
         <p-button label="Exit" severity="danger" (click)="handleLogout()" />
       </div>
-    </app-ui-dialog>
+    </uikit-dialog>
   `,
 })
 export class ProfileMenu implements OnInit {

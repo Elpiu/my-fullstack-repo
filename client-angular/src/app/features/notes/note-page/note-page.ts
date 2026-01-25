@@ -4,7 +4,6 @@ import { Models } from 'appwrite';
 import { ButtonModule } from 'primeng/button';
 import { SimpleEntry } from '../../../core/models/appwrite';
 import { UserMetadaService } from '../../../core/services/user-metada-service';
-import { UiDialog } from '../../../shared/components/ui-dialog/ui-dialog';
 import { NoteService } from '../../../shared/services/note-service';
 import { PopoverModule } from 'primeng/popover';
 import { JournalComponent } from '../../../shared/components/journal/journal';
@@ -15,6 +14,7 @@ import { TablerIconComponent } from 'angular-tabler-icons';
 import { QuickNoteBar } from '../../../shared/components/quick-note-bar/quick-note-bar';
 import { NoteTemplate } from '../../../core/models/user-metadata';
 import { MessageService } from 'primeng/api';
+import { UiDialog } from 'ui-kit';
 
 @Component({
   selector: 'app-note-page',
@@ -150,7 +150,7 @@ export class NotePage implements OnInit {
 
   toggleCategoryFilter(categoryId: string) {
     this.selectedCategoryIds.update((ids) =>
-      ids.includes(categoryId) ? ids.filter((id) => id !== categoryId) : [...ids, categoryId]
+      ids.includes(categoryId) ? ids.filter((id) => id !== categoryId) : [...ids, categoryId],
     );
   }
 
@@ -176,7 +176,7 @@ export class NotePage implements OnInit {
       return;
     } else {
       this.allEntries.update((entries) =>
-        entries.map((entry) => (entry.$id === event.$id ? event : entry))
+        entries.map((entry) => (entry.$id === event.$id ? event : entry)),
       );
     }
 

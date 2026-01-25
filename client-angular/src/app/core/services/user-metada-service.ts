@@ -1,7 +1,7 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 
 import { ID, Models, Permission, Query, Role, TablesDB } from 'appwrite';
-import { APPWRITE_TABLE_DATABASE } from '../../appwrite/appwrite.config';
+import { APPWRITE_TABLE_DATABASE } from '../../../../projects/core/src/lib/providers/appwrite.config';
 import { DEFAULT_CATEGORIES, DEFAULT_TAGS } from '../data/user-metadata-default.data';
 import { NoteTemplate, UserCategory, UserTag } from '../models/user-metadata';
 import { UserMetadata } from '../models/appwrite';
@@ -41,11 +41,11 @@ export class UserMetadaService {
   readonly isLoading = computed(() => this.state().isLoading);
 
   readonly mapCategories = computed<Record<string, UserCategory>>(() =>
-    this.state().categories.reduce((acc, category) => ({ ...acc, [category.id]: category }), {})
+    this.state().categories.reduce((acc, category) => ({ ...acc, [category.id]: category }), {}),
   );
 
   readonly mapTags = computed<Record<string, UserTag>>(() =>
-    this.state().tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag }), {})
+    this.state().tags.reduce((acc, tag) => ({ ...acc, [tag.id]: tag }), {}),
   );
 
   async loadUserMetadata(userId: string): Promise<void> {
