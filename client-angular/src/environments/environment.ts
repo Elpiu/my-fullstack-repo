@@ -4,10 +4,13 @@ export const environment = {
   production: true,
   appVersion: pckJson.version,
 
+  appName: 'client-angular',
+
   appwriteEndpoint: 'http://localhost/v1',
   appwriteProjectId: '691df6cca13ebc2229d8',
   appwriteProjectName: 'client-angular',
 
   database: '691e33bc00199c3bb5b2',
   tb_entry: 'entry',
+  tb_user_metadata: 'user_metadata',
 };

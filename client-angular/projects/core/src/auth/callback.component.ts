@@ -1,8 +1,8 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppStore } from '../../../core/store/AppStore';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
-import { AppRoutesNavigation } from '../../../app.routes';
+import { AuthStore } from './auth.store';
+import { AppRoutesNavigation } from '../data';
 
 @Component({
   selector: 'app-callback',
@@ -20,16 +20,15 @@ import { AppRoutesNavigation } from '../../../app.routes';
   styles: ``,
 })
 export class Callback implements OnInit {
-  protected appStore = inject(AppStore);
+  protected authStore = inject(AuthStore);
   protected router = inject(Router);
 
   ngOnInit() {
-    if (!this.appStore.isLoadingUser()) {
-      if (this.appStore.user()) {
-        this.router.navigate([AppRoutesNavigation.HOME]);
-      } else {
-        this.router.navigate([AppRoutesNavigation.LOGIN]);
-      }
+    if (!this.authStore.isLoading()) {
+      const target = this.authStore.isLoggedIn()
+        ? AppRoutesNavigation.HOME
+        : AppRoutesNavigation.LOGIN;
+      this.router.navigate([target]);
     }
   }
 }

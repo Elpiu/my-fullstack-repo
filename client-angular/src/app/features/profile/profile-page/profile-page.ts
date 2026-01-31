@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, OnInit } from '@angular/core';
 import { ButtonModule } from 'primeng/button';
-import { AppStore } from '../../../core/store/AppStore';
+import { AuthStore } from 'core';
 
 @Component({
   selector: 'app-profile-page',
@@ -33,12 +33,17 @@ import { AppStore } from '../../../core/store/AppStore';
           ></button>
         </div>
       </div>
+
+      <div class="p-6">
+        <h3 class="text-xl font-semibold mb-4">User Preferences</h3>
+        <span>{{ store.prefs() | json }}</span>
+      </div>
     </div>
   `,
   styles: ``,
 })
 export class ProfilePage implements OnInit {
-  store = inject(AppStore);
+  store = inject(AuthStore);
 
   userInitial = computed(() => this.store.user()?.name?.charAt(0).toUpperCase());
 

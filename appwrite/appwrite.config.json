@@ -1,6 +1,6 @@
 {
-    "projectId": "6941c257180a0c77b87c",
-    "projectName": "appwrite-pro",
+    "projectId": "69793eec000f01a1fee0",
+    "projectName": "flip-card",
     "settings": {
         "services": {
             "account": true,
@@ -37,5 +37,16 @@
                 "mockNumbers": []
             }
         }
-    }
+    },
+    "tablesDB": [
+        {
+            "$id": "697a7aac002fead00b15",
+            "name": "main_db",
+            "enabled": true
+        }
+    ],
+    "tables": [],
+    "buckets": [],
+    "teams": [],
+    "topics": []
 }

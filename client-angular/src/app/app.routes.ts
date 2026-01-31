@@ -1,13 +1,6 @@
 import { Routes } from '@angular/router';
-import { Callback } from './features/auth/callback/callback';
 import { MainLayout } from './shared/layout/main-layout/main-layout';
-import { authGuard } from './core/guards/auth.guard';
-
-export class AppRoutesNavigation {
-  static readonly LOGIN = '/login';
-  static readonly CALLBACK = '/auth/callback';
-  static readonly HOME = '/app';
-}
+import { AppRoutesNavigation, authGuard, Callback, Login } from 'core';
 
 export const routes: Routes = [
   {
@@ -18,7 +11,7 @@ export const routes: Routes = [
 
   {
     path: 'login',
-    loadComponent: () => import('./features/auth/login/login').then((m) => m.Login),
+    component: Login,
   },
   { path: 'auth/callback', component: Callback },
 
@@ -29,12 +22,20 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        redirectTo: 'profile',
+        redirectTo: AppRoutesNavigation.GAME.replace('/', ''),
         pathMatch: 'full',
       },
 
       {
-        path: 'profile',
+        path: AppRoutesNavigation.GAME.replace('/', ''),
+        loadComponent: () =>
+          import('./features/game/game-board-component/game-board-component').then(
+            (m) => m.GameBoardComponent,
+          ),
+      },
+
+      {
+        path: AppRoutesNavigation.PROFILE.replace('/', ''),
         loadComponent: () =>
           import('./features/profile/profile-page/profile-page').then((m) => m.ProfilePage),
       },

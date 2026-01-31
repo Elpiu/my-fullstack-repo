@@ -1,0 +1,28 @@
+<div
+  class="group relative w-full h-auto aspect-[3/4] cursor-pointer [perspective:1000px] active:scale-95 transition-transform duration-100"
+  (click)="handleClick()"
+  (keydown.enter)="handleClick()"
+  tabindex="0"
+  role="button"
+  [attr.aria-label]="isOpen() ? 'Card revealed: ' + content() : 'Card hidden'"
+>
+  <div
+    class="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d] shadow-sm sm:shadow-lg rounded-lg sm:rounded-xl"
+    [class.rotate-y-180]="isOpen()"
+  >
+    <div
+      class="absolute inset-0 h-full w-full [backface-visibility:hidden] rounded-lg sm:rounded-xl bg-surface-800 border-2 border-surface-700 flex items-center justify-center"
+    >
+      <i class="pi pi-question text-surface-400 text-xl sm:text-4xl"></i>
+    </div>
+
+    <div
+      class="absolute inset-0 h-full w-full [backface-visibility:hidden] rounded-lg sm:rounded-xl bg-surface-0 dark:bg-surface-900 border-2 border-primary [transform:rotateY(180deg)] flex items-center justify-center shadow-inner"
+      [class.border-green-500]="state() === 'MATCHED'"
+    >
+      <span class="text-3xl sm:text-5xl select-none animate-in fade-in zoom-in duration-300">
+        {{ content() }}
+      </span>
+    </div>
+  </div>
+</div>
